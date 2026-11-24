@@ -680,6 +680,7 @@ main.show{opacity:1}
         <p class="type-line">
           You told me once, half joking, half not; not to forget to wish you today. I want you to know there was never any version of this day where I forgot. I've been thinking about what to give you for days. I can't fly to Indonesia. I can't show up at your door with flowers. So I did the only thing I actually know how to do: I made you <em>something.</em>
         </p>
+        <p class="type-line">
           I want to know you, Helena. Not the version of you that shows up for a while and then logs off. I mean the actual you. The one with the private favourite songs and the opinions about things that don't matter and the feelings about things that do. The one who sends me pics of her time to time. The one who's a little different on quiet days. I want to know what makes you laugh until you can't breathe, and what you're scared of, and what you were like at twelve, and what a normal Tuesday feels like in your life. I want to know the small stuff. The small stuff is the whole thing.
         </p>
         <p class="type-line">
@@ -1506,143 +1507,65 @@ let currentNoteIndex = -1;
 const drawnLines = [];
 let lineProgress = 0;
 let activeLine = null;
+let typingTimeout = null;
+let isTyping = false;
 
 const STAR_NOTES = [
   {
-  title: "The first thing",
-  body: `
-    <p>
-      Before anything else, tonight: <strong>happy birthday.</strong> I wanted the first star to be about the day itself, just about you and the fact that you exist and that today is yours.
-    </p>
-    <p>
-      Eighteen. It's a big one. Not because anything magical happens at midnight, but because it's the year you start becoming the version of yourself you'll actually recognise later. I hope it's a soft year. I hope it's a year where the people around you are the kind who notice you. I hope it gives you at least one moment that makes you stop and think, <em>oh, this is what it feels like to be alive at the right time.</em>
-    </p>
-    <p>
-      And I hope you feel celebrated today. Properly. Not the polite kind of birthday where everyone says the right thing and moves on. The real kind. The kind where you go to sleep thinking, <strong>yeah. That was a good day to be me.</strong>
-    </p>
-  `
-},
+    title: "The first thing",
+    body: `<p>Before anything else, tonight: <strong>happy birthday.</strong> I wanted the first star to be about the day itself, just about you and the fact that you exist and that today is yours.</p>
+    <p>Eighteen. It's a big one. Not because anything magical happens at midnight, but because it's the year you start becoming the version of yourself you'll actually recognise later. I hope it's a soft year. I hope it's a year where the people around you are the kind who notice you. I hope it gives you at least one moment that makes you stop and think, <em>oh, this is what it feels like to be alive at the right time.</em></p>
+    <p>And I hope you feel celebrated today. Properly. Not the polite kind of birthday where everyone says the right thing and moves on. The real kind. The kind where you go to sleep thinking, <strong>yeah. That was a good day to be me.</strong></p>`
+  },
   {
-  title: "The way you talk",
-  body: `
-    <p>
-      There's a story about a river that ran through a village, and the villagers complained it was too slow. They wanted it to rush, to tumble, to make a sound worth listening to. So the river tried. It sped up, churned, threw itself against the rocks. And for a while the villagers were happy, it was <em>loud.</em>
-    </p>
-    <p>
-      But the water grew muddy, and the fish left, and the children stopped playing at the banks because it was too rough. One old woman walked down to the river one evening and said, quietly, <em>"Go back to how you were. We were wrong. The slow water was the water that fed us."</em>
-    </p>
-    <p>
-      The river went back. It slowed. It cleared. And the village remembered, slowly, that the good things had always come from the pace they'd tried to change.
-    </p>
-    <p>
-      I think about that when I think about the way you talk. Unhurried. Considered. Not loud. There's a whole village of people, somewhere, who are lucky enough to drink from the kind of water you are. I hope you never let anyone rush you into being faster than you are. The pace you move at is part of the reason you're worth listening to.
-    </p>
-  `
-},
+    title: "The way you talk",
+    body: `<p>There's a story about a river that ran through a village, and the villagers complained it was too slow. They wanted it to rush, to tumble, to make a sound worth listening to. So the river tried. It sped up, churned, threw itself against the rocks. And for a while the villagers were happy, it was <em>loud.</em></p>
+    <p>But the water grew muddy, and the fish left, and the children stopped playing at the banks because it was too rough. One old woman walked down to the river one evening and said, quietly, <em>"Go back to how you were. We were wrong. The slow water was the water that fed us."</em></p>
+    <p>The river went back. It slowed. It cleared. And the village remembered, slowly, that the good things had always come from the pace they'd tried to change.</p>
+    <p>I think about that when I think about the way you talk. Unhurried. Considered. Not loud. There's a whole village of people, somewhere, who are lucky enough to drink from the kind of water you are. I hope you never let anyone rush you into being faster than you are. The pace you move at is part of the reason you're worth listening to.</p>`
+  },
   {
     title: "The little tale",
-    body: `
-      <p>
-        There's an old story about a lantern that worried it wasn't bright enough. It compared itself to the sun and the moon and the great fires of the world, and it decided, quietly, to dim itself so it wouldn't embarrass anyone.
-      </p>
-      <p>
-        But on a dark night, a traveler came through the valley; lost, cold, frightened; and the only thing they could see for miles was that one small lantern, still burning, refusing to go out. And the traveler said: <em>"Of all the lights in the world, this is the one that saved me."</em>
-      </p>
-      <p>
-        I don't know if you'll ever fully know how bright you are, Helena. But I want you to know that someone sees it. Even from here. Even through a screen. Even on the days you feel like dimming yourself. You are the one that saved a night you didn't even know was dark.
-      </p>
-    `
+    body: `<p>There's an old story about a lantern that worried it wasn't bright enough. It compared itself to the sun and the moon and the great fires of the world, and it decided, quietly, to dim itself so it wouldn't embarrass anyone.</p>
+    <p>But on a dark night, a traveler came through the valley; lost, cold, frightened; and the only thing they could see for miles was that one small lantern, still burning, refusing to go out. And the traveler said: <em>"Of all the lights in the world, this is the one that saved me."</em></p>
+    <p>I don't know if you'll ever fully know how bright you are, Helena. But I want you to know that someone sees it. Even from here. Even through a screen. Even on the days you feel like dimming yourself. You are the one that saved a night you didn't even know was dark.</p>`
   },
- {
-  title: "On the small things",
-  body: `
-    <p>
-      The big gestures are the ones that get remembered out loud. The grand apology, the surprise party, the speech at the wedding. But the ones that actually shape a person; the ones that decide who you become are almost always small.
-    </p>
-    <p>
-      The half-second pause before someone replies, because they're actually thinking about what you said. The friend who remembers a thing you mentioned once, six months ago, and brings it up like it's obvious. The person who notices you've gone quiet in a way that isn't restful. Those are the small things. They don't photograph well. They don't get posted. But they're the reason some people feel safe and others don't.
-    </p>
-    <p>
-      You strike me as someone who's built out of the small things. Not because you're trying to be but because that's just the material you're made of. And I want you to know: it's not invisible. Even from a continent away. Even on the days it feels like it is. <strong>It shows.</strong>
-    </p>
-  `
-},
+  {
+    title: "On the small things",
+    body: `<p>The big gestures are the ones that get remembered out loud. The grand apology, the surprise party, the speech at the wedding. But the ones that actually shape a person; the ones that decide who you become are almost always small.</p>
+    <p>The half-second pause before someone replies, because they're actually thinking about what you said. The friend who remembers a thing you mentioned once, six months ago, and brings it up like it's obvious. The person who notices you've gone quiet in a way that isn't restful. Those are the small things. They don't photograph well. They don't get posted. But they're the reason some people feel safe and others don't.</p>
+    <p>You strike me as someone who's built out of the small things. Not because you're trying to be but because that's just the material you're made of. And I want you to know: it's not invisible. Even from a continent away. Even on the days it feels like it is. <strong>It shows.</strong></p>`
+  },
   {
     title: "The thing about being eighteen",
-    body: `
-      <p>
-        Eighteen is a strange, enormous, tender age. You are old enough to be trusted with the world and young enough that the world hasn't quite decided what to do with you yet. Both of those things are true at once, and both of them are allowed.
-      </p>
-      <p>
-        You don't have to have it figured out. You don't have to be impressive yet. You don't have to be anything other than what you actually are, which from where I'm standing, is already someone worth knowing. Take the year slowly. Let it be yours.
-      </p>
-      <p>
-        Whatever you're aiming at, whatever you're becoming, I hope you get there at a pace that doesn't cost you your softness. That's the thing I'd want most for you.
-      </p>
-    `
+    body: `<p>Eighteen is a strange, enormous, tender age. You are old enough to be trusted with the world and young enough that the world hasn't quite decided what to do with you yet. Both of those things are true at once, and both of them are allowed.</p>
+    <p>You don't have to have it figured out. You don't have to be impressive yet. You don't have to be anything other than what you actually are, which from where I'm standing, is already someone worth knowing. Take the year slowly. Let it be yours.</p>
+    <p>Whatever you're aiming at, whatever you're becoming, I hope you get there at a pace that doesn't cost you your softness. That's the thing I'd want most for you.</p>`
   },
   {
-  title: "A wish, from here",
-  body: `
-    <p>
-      Here's what I'd actually want for you this year, if I could hand it to you in person.
-    </p>
-    <p>
-      I'd want a year where you're seen the way you deserve to be seen. Where the people around you are the kind who notice when you're quiet in a way that isn't restful. Where your good days outnumber your bad ones, and the bad ones are short, and the good ones are long enough that you actually get to feel them.
-    </p>
-    <p>
-      I'd want you to have the confidence that comes from being loved well, not because someone told you to be confident, but because someone actually loved you, properly, and you felt it in your body. That kind of confidence doesn't fade. It stays.
-    </p>
-    <p>
-      And then the part I've been circling ; I know <strong>one day, somewhere, somehow, we'll actually meet.</strong> Not on a screen. Not in a call. In a place with weather and noise and nothing between us. I want to see the laugh I've only heard through speakers. I want to hear your voice in the same room instead of through a phone. I want to be one of those people in your life who isn't a name on a screen.
-    </p>
-    <p>
-      I don't know when. But it's on my list and for sure it's happening. 
-    </p>
-  `
-},
+    title: "A wish, from here",
+    body: `<p>Here's what I'd actually want for you this year, if I could hand it to you in person.</p>
+    <p>I'd want a year where you're seen the way you deserve to be seen. Where the people around you are the kind who notice when you're quiet in a way that isn't restful. Where your good days outnumber your bad ones, and the bad ones are short, and the good ones are long enough that you actually get to feel them.</p>
+    <p>I'd want you to have the confidence that comes from being loved well, not because someone told you to be confident, but because someone actually loved you, properly, and you felt it in your body. That kind of confidence doesn't fade. It stays.</p>
+    <p>And then the part I've been circling ; I know <strong>one day, somewhere, somehow, we'll actually meet.</strong> Not on a screen. Not in a call. In a place with weather and noise and nothing between us. I want to see the laugh I've only heard through speakers. I want to hear your voice in the same room instead of through a phone. I want to be one of those people in your life who isn't a name on a screen.</p>
+    <p>I don't know when. But it's on my list and for sure it's happening.</p>`
+  },
   {
-  title: "The quiet thing",
-  body: `
-    <p>
-      There's a story about a candle that lived in a room full of brighter things. Lamps, chandeliers, a fire in the hearth. The candle felt small. It kept itself in a corner, half-hidden behind a book, and it told itself it didn't matter that the room was already bright enough without it.
-    </p>
-    <p>
-      One night, a storm came through and the power went out. The lamps went dark. The chandelier went dark. The fire in the hearth burned low and then went out. The room was black. And then, in the corner, half-hidden behind a book, the candle was still burning <em>quietly, the whole time, never asking to be seen.</em>
-    </p>
-    <p>
-      Someone found it. Someone held it up. And the whole room was saved by the thing that had spent years thinking it was too small to matter.
-    </p>
-    <p>
-      I think you're like that candle, Helena. Not because you're small, because you're <em>quietly bright</em>, and quiet brightness is the kind that matters when everything else goes out. You don't need to be the loudest light in the room. You just need to be the one that's still burning when the storm comes. And you are. I see it. Even from here.
-    </p>
-  `
-},
+    title: "The quiet thing",
+    body: `<p>There's a story about a candle that lived in a room full of brighter things. Lamps, chandeliers, a fire in the hearth. The candle felt small. It kept itself in a corner, half-hidden behind a book, and it told itself it didn't matter that the room was already bright enough without it.</p>
+    <p>One night, a storm came through and the power went out. The lamps went dark. The chandelier went dark. The fire in the hearth burned low and then went out. The room was black. And then, in the corner, half-hidden behind a book, the candle was still burning <em>quietly, the whole time, never asking to be seen.</em></p>
+    <p>Someone found it. Someone held it up. And the whole room was saved by the thing that had spent years thinking it was too small to matter.</p>
+    <p>I think you're like that candle, Helena. Not because you're small, because you're <em>quietly bright</em>, and quiet brightness is the kind that matters when everything else goes out. You don't need to be the loudest light in the room. You just need to be the one that's still burning when the storm comes. And you are. I see it. Even from here.</p>`
+  },
   {
     title: "The last one. The real one.",
-    body: `
-      <p>
-        Okay. Here's the honest thing, and I'm going to say it plainly, because you deserve plain.
-      </p>
-      <p>
-        I've grown to care about you more than I expected to, in less time than I expected it to take. Not in a vague, flattering way; in a real, specific way that kind of caught me off guard. You slipped in quickly, quietly, and by the time I noticed, you were somehow already somewhere pretty important to me.
-      </p>
-      <p>
-        I usually keep my guard up pretty high when it comes to caring about someone across a distance, especially after things that have left me cautious in the past. So my first instinct was to hold back, to keep it quiet, to tell myself it wasn't a big deal.
-      </p>
-      <p>
-        It is though. Every time I step back and check, I end up right here still liking you, still wanting to know you more, still hoping the next message is from you.
-      </p>
-      <p>
-        I'm a little nervous putting that out there, honestly, because I care about how this comes across and I don't want it to feel heavy or awkward. Still, I didn't want time to pass where I played it safe and said nothing at all.
-      </p>
-      <p>
-        I'm not asking you for anything tonight. Not an answer, not a promise. Just ummm, I'm here, and I'd really like to know you more. In whatever way feels easy and comfortable for you.
-      </p>
-      <p>
-        Happy eighteenth, Helena. I hope you feel every good thing this year. And I hope selfishly, honestly, that I get to be one of them.
-      </p>
-    `
+    body: `<p>Okay. Here's the honest thing, and I'm going to say it plainly, because you deserve plain.</p>
+    <p>I've grown to care about you more than I expected to, in less time than I expected it to take. Not in a vague, flattering way; in a real, specific way that kind of caught me off guard. You slipped in quickly, quietly, and by the time I noticed, you were somehow already somewhere pretty important to me.</p>
+    <p>I usually keep my guard up pretty high when it comes to caring about someone across a distance, especially after things that have left me cautious in the past. So my first instinct was to hold back, to keep it quiet, to tell myself it wasn't a big deal.</p>
+    <p>It is though. Every time I step back and check, I end up right here still liking you, still wanting to know you more, still hoping the next message is from you.</p>
+    <p>I'm a little nervous putting that out there, honestly, because I care about how this comes across and I don't want it to feel heavy or awkward. Still, I didn't want time to pass where I played it safe and said nothing at all.</p>
+    <p>I'm not asking you for anything tonight. Not an answer, not a promise. Just ummm, I'm here, and I'd really like to know you more. In whatever way feels easy and comfortable for you.</p>
+    <p>Happy eighteenth, Helena. I hope you feel every good thing this year. And I hope selfishly, honestly, that I get to be one of them.</p>`
   }
 ];
 
@@ -1655,36 +1578,23 @@ function sizeStars(){
   stx.setTransform(DPR,0,0,DPR,0,0);
   if (STARS2.length === 0) seedStars2();
 }
+
 function seedStars2(){
   STARS2.length = 0;
-  
-  // Mathematical coordinates for a heart (0 to 1 scale)
   const heartPoints = [
-    {x: 0.5, y: 0.85},   // Bottom tip
-    {x: 0.25, y: 0.5},   // Lower left
-    {x: 0.15, y: 0.25},  // Upper left
-    {x: 0.35, y: 0.15},  // Left lobe
-    {x: 0.5, y: 0.35},   // Center dip
-    {x: 0.65, y: 0.15},  // Right lobe
-    {x: 0.85, y: 0.25},  // Upper right
-    {x: 0.75, y: 0.5}    // Lower right
+    {x: 0.5, y: 0.85}, {x: 0.25, y: 0.5}, {x: 0.15, y: 0.25}, {x: 0.35, y: 0.15},
+    {x: 0.5, y: 0.35}, {x: 0.65, y: 0.15}, {x: 0.85, y: 0.25}, {x: 0.75, y: 0.5}
   ];
-
   heartPoints.forEach(p => {
     STARS2.push({
-      x: p.x * (sW - 100) + 50, // Scale to canvas width with margin
-      y: p.y * (sH - 100) + 50, // Scale to canvas height with margin
+      x: p.x * (sW - 100) + 50, 
+      y: p.y * (sH - 100) + 50, 
       tw: Math.random()*Math.PI*2,
-      r: 12 + Math.random()*4 // Slightly larger stars for the shape
+      r: 12 + Math.random()*4 
     });
   });
-
-  tapIndex = 0;
-  tappedSet = new Set();
-  currentNoteIndex = -1;
-  drawnLines.length = 0;
-  lineProgress = 0;
-  activeLine = null;
+  tapIndex = 0; tappedSet = new Set(); currentNoteIndex = -1;
+  drawnLines.length = 0; lineProgress = 0; activeLine = null;
   $('#constHidden') && $('#constHidden').classList.remove('show');
   $('#starNote').classList.remove('show');
   updateCounter();
@@ -1693,17 +1603,18 @@ function seedStars2(){
 function updateCounter(){
   $('#constCounter').textContent = `${tappedSet.size} / 8 stars tapped`;
 }
+
 function drawStar(ctx, x, y, size, rotation, glow){
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate(rotation);
   ctx.beginPath();
-  const points = 4;
-  const outer = size;
-  const inner = size * 0.42;
-  for (let i = 0; i < points * 2; i++){
-    const radius = i % 2 === 0 ? outer : inner;
-    const angle = (Math.PI / points) * i - Math.PI / 2;
+  const spikes = 5;
+  const outerRadius = size;
+  const innerRadius = size * 0.4;
+  for (let i = 0; i < spikes * 2; i++) {
+    const radius = i % 2 === 0 ? outerRadius : innerRadius;
+    const angle = (Math.PI / spikes) * i - Math.PI / 2;
     const px = Math.cos(angle) * radius;
     const py = Math.sin(angle) * radius;
     if (i === 0) ctx.moveTo(px, py);
@@ -1712,16 +1623,16 @@ function drawStar(ctx, x, y, size, rotation, glow){
   ctx.closePath();
   if (glow > 0){
     ctx.shadowColor = 'rgba(240,205,134,' + glow + ')';
-    ctx.shadowBlur = 22 * glow;
+    ctx.shadowBlur = 25 * glow;
   }
   const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, size);
-  grd.addColorStop(0, '#fff7e0');
-  grd.addColorStop(0.4, '#f0cd86');
-  grd.addColorStop(1, '#c9868c');
+  grd.addColorStop(0, '#ffffff'); grd.addColorStop(0.3, '#f0cd86'); grd.addColorStop(1, '#c9868c');
   ctx.fillStyle = grd;
   ctx.fill();
+  ctx.beginPath(); ctx.arc(0, 0, size * 0.15, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill();
   ctx.restore();
 }
+
 function nearestStar(x, y){
   let best = -1, bd = 50;
   for (let i = 0; i < STARS2.length; i++){
@@ -1730,42 +1641,26 @@ function nearestStar(x, y){
   }
   return best;
 }
+
 function showNote(index){
-  // Cancel any existing typing immediately
   if (typingTimeout) clearTimeout(typingTimeout);
   isTyping = true;
-
   const note = STAR_NOTES[index];
   if (!note) { isTyping = false; return; }
   currentNoteIndex = index;
-  
-  const titleEl = $('#noteTitle');
-  const bodyEl = $('#noteBody');
-  const noteWrap = $('#starNote');
-  
+  const titleEl = $('#noteTitle'), bodyEl = $('#noteBody'), noteWrap = $('#starNote');
   titleEl.textContent = note.title;
   noteWrap.classList.remove('show');
   void noteWrap.offsetWidth; 
-  
-  bodyEl.innerHTML = '';
-  bodyEl.classList.add('typewriter-active');
-  
+  bodyEl.innerHTML = ''; bodyEl.classList.add('typewriter-active');
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = note.body;
   const originalPs = Array.from(tempDiv.querySelectorAll('p'));
-  
   noteWrap.classList.add('show');
   chime(560 + index * 40, 0.6, 0.05); 
-  
-  setTimeout(() => {
-    noteWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 200);
+  setTimeout(() => noteWrap.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
 
-  let pIndex = 0;
-  let charIndex = 0;
-  let currentParaEl = null;
-  let plainText = "";
-
+  let pIndex = 0, charIndex = 0, currentParaEl = null, plainText = "";
   const cursor = document.createElement('span');
   cursor.className = 'type-cursor';
 
@@ -1777,170 +1672,114 @@ function showNote(index){
       charIndex = 0;
       plainText = originalPs[pIndex] ? originalPs[pIndex].textContent : "";
     }
-
     if (charIndex < plainText.length) {
       currentParaEl.textContent += plainText[charIndex];
       currentParaEl.appendChild(cursor);
-      
       if (Math.random() < 0.25) { 
         const rect = cursor.getBoundingClientRect();
         if (rect.width > 0) spawnGlitterParticle(rect.left, rect.top);
       }
-
       charIndex++;
       typingTimeout = setTimeout(typeNextChar, 25); 
     } else {
-      if (originalPs[pIndex]) {
-        currentParaEl.innerHTML = originalPs[pIndex].innerHTML; 
-      }
+      if (originalPs[pIndex]) currentParaEl.innerHTML = originalPs[pIndex].innerHTML; 
       currentParaEl.style.color = ''; 
-      
-      pIndex++;
-      currentParaEl = null;
-      
+      pIndex++; currentParaEl = null;
       if (pIndex < originalPs.length) {
         typingTimeout = setTimeout(typeNextChar, 400); 
       } else {
-        cursor.remove();
-        bodyEl.classList.remove('typewriter-active');
-        isTyping = false; // Allow tapping the next star!
+        cursor.remove(); bodyEl.classList.remove('typewriter-active');
+        isTyping = false; 
       }
     }
   }
-
   typingTimeout = setTimeout(typeNextChar, 300);
 }
 
-// Sparkle particle generator (uses the existing DOM)
 function spawnGlitterParticle(x, y) {
   const el = document.createElement('div');
-  el.className = 'confetti'; // reuse the confetti class for positioning
-  el.style.left = x + 'px';
-  el.style.top = y + 'px';
-  
-  // Purple and Silver colors
+  el.className = 'confetti'; 
+  el.style.left = x + 'px'; el.style.top = y + 'px';
   const colors = ['#d9cfe8', '#b8a9d9', '#ffffff', '#e8b4b8'];
   el.style.background = colors[Math.floor(Math.random() * colors.length)];
-  el.style.borderRadius = '50%'; // round dots
-  el.style.boxShadow = `0 0 10px ${el.style.background}`;
-  
+  el.style.borderRadius = '50%'; el.style.boxShadow = `0 0 10px ${el.style.background}`;
   document.body.appendChild(el);
-
-  // Animate falling and fading
-  let life = 0;
-  const maxLife = 30;
-  const vx = (Math.random() - 0.5) * 1.5;
-  const vy = (Math.random() * 1.5) + 0.5;
-  let curX = 0;
-  let curY = 0;
-
+  let life = 0; const maxLife = 30, vx = (Math.random() - 0.5) * 1.5, vy = (Math.random() * 1.5) + 0.5;
+  let curX = 0, curY = 0;
   function step() {
-    life++;
-    curX += vx;
-    curY += vy;
+    life++; curX += vx; curY += vy;
     el.style.transform = `translate(${curX}px, ${curY}px) scale(${1 - life/maxLife})`;
     el.style.opacity = String(1 - (life / maxLife));
-    
-    if (life < maxLife) {
-      requestAnimationFrame(step);
-    } else {
-      el.remove();
-    }
+    if (life < maxLife) requestAnimationFrame(step); else el.remove();
   }
   requestAnimationFrame(step);
 }
 
 function handleStarTap(clientX, clientY){
   const r = starCv.getBoundingClientRect();
-  const x = clientX - r.left;
-  const y = clientY - r.top;
+  const x = clientX - r.left, y = clientY - r.top;
   const idx = nearestStar(x, y);
-    if (isTyping) {
-    toast('Let the note finish writing first ✦');
-    return;
-  }
+  if (isTyping) { toast('Let the note finish writing first ✦'); return; }
   if (idx === -1) return;
   if (tappedSet.has(idx)) return;
-  if (idx !== tapIndex) {
-    toast('Tap the glowing star first ✦');
-    return;
-  }
-  tappedSet.add(idx);
-  updateCounter();
+  if (idx !== tapIndex) { toast('Tap the glowing star first ✦'); return; }
+  tappedSet.add(idx); updateCounter();
   if (idx > 0){
-    const prev = STARS2[idx - 1];
-    const cur = STARS2[idx];
-    activeLine = { from: prev, to: cur, progress: 0 };
+    activeLine = { from: STARS2[idx - 1], to: STARS2[idx], progress: 0 };
     lineProgress = 0;
   }
   showNote(idx);
   if (idx === STARS2.length - 1){
     setTimeout(() => {
       confetti(window.innerWidth / 2, window.innerHeight / 2, 80);
-      chime(523, 1.1, 0.06);
-      setTimeout(() => chime(659, 1.0, 0.05), 140);
-      setTimeout(() => chime(784, 1.2, 0.06), 280);
-      setTimeout(() => chime(1047, 1.5, 0.06), 420);
+      chime(523, 1.1, 0.06); setTimeout(() => chime(659, 1.0, 0.05), 140);
+      setTimeout(() => chime(784, 1.2, 0.06), 280); setTimeout(() => chime(1047, 1.5, 0.06), 420);
       toast('You found them all ✦');
     }, 600);
   }
   tapIndex = idx + 1;
 }
+
 starCv.addEventListener('click', e => handleStarTap(e.clientX, e.clientY));
 starCv.addEventListener('touchstart', e => {
-  if (e.touches[0]){
-    e.preventDefault();
-    handleStarTap(e.touches[0].clientX, e.touches[0].clientY);
-  }
+  if (e.touches[0]){ e.preventDefault(); handleStarTap(e.touches[0].clientX, e.touches[0].clientY); }
 }, { passive: false });
 
 let st = 0;
-let typingTimeout = null;
-let isTyping = false;
-
-function drawStar(ctx, x, y, size, rotation, glow){
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.rotate(rotation);
-  ctx.beginPath();
-  
-  // 5-pointed star math
-  const spikes = 5;
-  const outerRadius = size;
-  const innerRadius = size * 0.4;
-  
-  for (let i = 0; i < spikes * 2; i++) {
-    const radius = i % 2 === 0 ? outerRadius : innerRadius;
-    const angle = (Math.PI / spikes) * i - Math.PI / 2;
-    const px = Math.cos(angle) * radius;
-    const py = Math.sin(angle) * radius;
-    if (i === 0) ctx.moveTo(px, py);
-    else ctx.lineTo(px, py);
+function drawStars(){
+  if (!sW){ sizeStars(); requestAnimationFrame(drawStars); return; }
+  stx.clearRect(0,0,sW,sH);
+  for (let i=0;i<48;i++){
+    const x = ((i*97)%1000)/1000 * sW, y = ((i*53)%1000)/1000 * sH;
+    stx.globalAlpha = 0.10 + 0.10*Math.sin(st*0.02 + i);
+    stx.fillStyle = '#f0cd86'; stx.beginPath(); stx.arc(x,y,0.9,0,Math.PI*2); stx.fill();
   }
-  
-  ctx.closePath();
-  
-  if (glow > 0){
-    ctx.shadowColor = 'rgba(240,205,134,' + glow + ')';
-    ctx.shadowBlur = 25 * glow;
+  stx.globalAlpha = 1;
+  for (const line of drawnLines){
+    stx.strokeStyle = 'rgba(240,205,134,0.55)'; stx.shadowColor = 'rgba(240,205,134,0.6)'; stx.shadowBlur = 8; stx.lineWidth = 1.6;
+    stx.beginPath(); stx.moveTo(line.from.x, line.from.y); stx.lineTo(line.to.x, line.to.y); stx.stroke(); stx.shadowBlur = 0;
   }
-  
-  // Warmer star gradient
-  const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, size);
-  grd.addColorStop(0, '#ffffff'); // bright white core
-  grd.addColorStop(0.3, '#f0cd86'); // gold
-  grd.addColorStop(1, '#c9868c'); // rose edges
-  
-  ctx.fillStyle = grd;
-  ctx.fill();
-  
-  // Add a tiny white glowing dot in the center
-  ctx.beginPath();
-  ctx.arc(0, 0, size * 0.15, 0, Math.PI * 2);
-  ctx.fillStyle = '#ffffff';
-  ctx.fill();
-
-  ctx.restore();
+  if (activeLine){
+    activeLine.progress = Math.min(1, activeLine.progress + 0.025);
+    const px = activeLine.from.x + (activeLine.to.x - activeLine.from.x) * activeLine.progress;
+    const py = activeLine.from.y + (activeLine.to.y - activeLine.from.y) * activeLine.progress;
+    stx.strokeStyle = 'rgba(240,205,134,0.75)'; stx.shadowColor = 'rgba(240,205,134,0.8)'; stx.shadowBlur = 12; stx.lineWidth = 2;
+    stx.beginPath(); stx.moveTo(activeLine.from.x, activeLine.from.y); stx.lineTo(px, py); stx.stroke(); stx.shadowBlur = 0;
+    if (activeLine.progress >= 1){ drawnLines.push({ from: activeLine.from, to: activeLine.to }); activeLine = null; }
+  }
+  for (let i = 0; i < STARS2.length; i++){
+    const s = STARS2[i]; s.tw += 0.03;
+    const isNext = i === tapIndex, isTapped = tappedSet.has(i);
+    const glow = isNext ? 0.6 + 0.4 * Math.sin(s.tw * 2) : (isTapped ? 0.15 : 0.05);
+    const scale = isNext ? 1.15 : (isTapped ? 1 : 0.9);
+    const rotation = isTapped ? s.tw * 0.4 : Math.sin(s.tw * 0.3) * 0.1;
+    drawStar(stx, s.x, s.y, s.r * scale, rotation, glow);
+    if (isNext){
+      stx.beginPath(); stx.arc(s.x, s.y, s.r * 2.4 + Math.sin(s.tw * 2) * 4, 0, Math.PI * 2);
+      stx.strokeStyle = 'rgba(240,205,134,0.35)'; stx.lineWidth = 1.2; stx.stroke();
+    }
+  }
+  st++; requestAnimationFrame(drawStars);
 }
 
 const reasons = [
