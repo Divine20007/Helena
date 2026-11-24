@@ -1625,19 +1625,19 @@ const STAR_NOTES = [
         Okay. Here's the honest thing, and I'm going to say it plainly, because you deserve plain.
       </p>
       <p>
-        I've grown to care about you more than I expected to, in less time than I expected it to take. Not in a vague, flattering way—in a real, specific way that kind of caught me off guard. You slipped in quickly, quietly, and by the time I noticed, you were already somewhere pretty important to me.
+        I've grown to care about you more than I expected to, in less time than I expected it to take. Not in a vague, flattering way; in a real, specific way that kind of caught me off guard. You slipped in quickly, quietly, and by the time I noticed, you were somehow already somewhere pretty important to me.
       </p>
       <p>
         I usually keep my guard up pretty high when it comes to caring about someone across a distance, especially after things that have left me cautious in the past. So my first instinct was to hold back, to keep it quiet, to tell myself it wasn't a big deal.
       </p>
       <p>
-        It is, though. Every time I step back and check, I end up right here—still liking you, still wanting to know you more, still hoping the next message is from you.
+        It is though. Every time I step back and check, I end up right here still liking you, still wanting to know you more, still hoping the next message is from you.
       </p>
       <p>
-        I'm a little nervous putting that out there, honestly, because I care about how this comes across and I don't want it to feel heavy or awkward. Still, I didn't want another year to pass where I played it safe and said nothing at all.
+        I'm a little nervous putting that out there, honestly, because I care about how this comes across and I don't want it to feel heavy or awkward. Still, I didn't want time to pass where I played it safe and said nothing at all.
       </p>
       <p>
-        I'm not asking you for anything tonight. Not an answer, not a promise. Just—I'm here, and I'd really like to know you more. In whatever way feels easy and comfortable for you.
+        I'm not asking you for anything tonight. Not an answer, not a promise. Just ummm, I'm here, and I'd really like to know you more. In whatever way feels easy and comfortable for you.
       </p>
       <p>
         Happy eighteenth, Helena. I hope you feel every good thing this year. And I hope selfishly, honestly, that I get to be one of them.
@@ -1657,18 +1657,28 @@ function sizeStars(){
 }
 function seedStars2(){
   STARS2.length = 0;
-  const n = 8;
-  let tries = 0;
-  while (STARS2.length < n && tries < 800){
-    tries++;
-    const x = 60 + Math.random() * (sW - 120);
-    const y = 60 + Math.random() * (sH - 120);
-    let ok = true;
-    for (const s of STARS2){
-      if (Math.hypot(s.x - x, s.y - y) < 90){ ok = false; break; }
-    }
-    if (ok) STARS2.push({ x, y, tw: Math.random()*Math.PI*2, r: 9 + Math.random()*3 });
-  }
+  
+  // Mathematical coordinates for a heart (0 to 1 scale)
+  const heartPoints = [
+    {x: 0.5, y: 0.85},   // Bottom tip
+    {x: 0.25, y: 0.5},   // Lower left
+    {x: 0.15, y: 0.25},  // Upper left
+    {x: 0.35, y: 0.15},  // Left lobe
+    {x: 0.5, y: 0.35},   // Center dip
+    {x: 0.65, y: 0.15},  // Right lobe
+    {x: 0.85, y: 0.25},  // Upper right
+    {x: 0.75, y: 0.5}    // Lower right
+  ];
+
+  heartPoints.forEach(p => {
+    STARS2.push({
+      x: p.x * (sW - 100) + 50, // Scale to canvas width with margin
+      y: p.y * (sH - 100) + 50, // Scale to canvas height with margin
+      tw: Math.random()*Math.PI*2,
+      r: 12 + Math.random()*4 // Slightly larger stars for the shape
+    });
+  });
+
   tapIndex = 0;
   tappedSet = new Set();
   currentNoteIndex = -1;
@@ -1679,6 +1689,7 @@ function seedStars2(){
   $('#starNote').classList.remove('show');
   updateCounter();
 }
+
 function updateCounter(){
   $('#constCounter').textContent = `${tappedSet.size} / 8 stars tapped`;
 }
@@ -1720,31 +1731,29 @@ function nearestStar(x, y){
   return best;
 }
 function showNote(index){
+  // Cancel any existing typing immediately
+  if (typingTimeout) clearTimeout(typingTimeout);
+  isTyping = true;
+
   const note = STAR_NOTES[index];
-  if (!note) return;
+  if (!note) { isTyping = false; return; }
   currentNoteIndex = index;
   
   const titleEl = $('#noteTitle');
   const bodyEl = $('#noteBody');
-  
-  // 1. Set the title
-  titleEl.textContent = note.title;
-  
-  // 2. Hide the star note container briefly to reset it
   const noteWrap = $('#starNote');
+  
+  titleEl.textContent = note.title;
   noteWrap.classList.remove('show');
   void noteWrap.offsetWidth; 
   
-  // 3. Clear the body
   bodyEl.innerHTML = '';
   bodyEl.classList.add('typewriter-active');
   
-  // 4. Extract the content with HTML tags intact
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = note.body;
   const originalPs = Array.from(tempDiv.querySelectorAll('p'));
   
-  // 5. Reveal the card
   noteWrap.classList.add('show');
   chime(560 + index * 40, 0.6, 0.05); 
   
@@ -1752,50 +1761,37 @@ function showNote(index){
     noteWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, 200);
 
-  // 6. The typing engine
   let pIndex = 0;
   let charIndex = 0;
   let currentParaEl = null;
   let plainText = "";
 
-  // Create the glowing cursor
   const cursor = document.createElement('span');
   cursor.className = 'type-cursor';
 
   function typeNextChar() {
-    // If we need to start a new paragraph
     if (!currentParaEl) {
       currentParaEl = document.createElement('p');
       currentParaEl.style.color = '#d9cfe8'; 
       bodyEl.appendChild(currentParaEl);
       charIndex = 0;
-      // Get the plain text of this paragraph (stripping out HTML tags for typing)
       plainText = originalPs[pIndex] ? originalPs[pIndex].textContent : "";
     }
 
-    // Type the next letter
     if (charIndex < plainText.length) {
-      // Add the letter
       currentParaEl.textContent += plainText[charIndex];
       currentParaEl.appendChild(cursor);
       
-      // --- PURPLE/SILVER GLITTER TRAIL ---
-      // Spawn a sparkle particle where the cursor is
-      if (Math.random() < 0.3) { // 30% chance per letter so it's not overwhelming
+      if (Math.random() < 0.25) { 
         const rect = cursor.getBoundingClientRect();
-        if (rect.width > 0) {
-          spawnGlitterParticle(rect.left, rect.top);
-        }
+        if (rect.width > 0) spawnGlitterParticle(rect.left, rect.top);
       }
-      // -----------------------------------
 
       charIndex++;
-      setTimeout(typeNextChar, 25); // 25ms per letter
+      typingTimeout = setTimeout(typeNextChar, 25); 
     } else {
-      // Paragraph finished
-      // Swap the typed text with the original HTML (to restore bold/italics)
       if (originalPs[pIndex]) {
-        currentParaEl.innerHTML = originalPs[pIndex].innerHTML;
+        currentParaEl.innerHTML = originalPs[pIndex].innerHTML; 
       }
       currentParaEl.style.color = ''; 
       
@@ -1803,16 +1799,16 @@ function showNote(index){
       currentParaEl = null;
       
       if (pIndex < originalPs.length) {
-        setTimeout(typeNextChar, 400); 
+        typingTimeout = setTimeout(typeNextChar, 400); 
       } else {
         cursor.remove();
         bodyEl.classList.remove('typewriter-active');
+        isTyping = false; // Allow tapping the next star!
       }
     }
   }
 
-  // Start typing
-  setTimeout(typeNextChar, 300);
+  typingTimeout = setTimeout(typeNextChar, 300);
 }
 
 // Sparkle particle generator (uses the existing DOM)
@@ -1859,6 +1855,10 @@ function handleStarTap(clientX, clientY){
   const x = clientX - r.left;
   const y = clientY - r.top;
   const idx = nearestStar(x, y);
+    if (isTyping) {
+    toast('Let the note finish writing first ✦');
+    return;
+  }
   if (idx === -1) return;
   if (tappedSet.has(idx)) return;
   if (idx !== tapIndex) {
@@ -1895,67 +1895,52 @@ starCv.addEventListener('touchstart', e => {
 }, { passive: false });
 
 let st = 0;
-function drawStars(){
-  if (!sW){ sizeStars(); requestAnimationFrame(drawStars); return; }
-  stx.clearRect(0,0,sW,sH);
-  for (let i=0;i<48;i++){
-    const x = ((i*97)%1000)/1000 * sW;
-    const y = ((i*53)%1000)/1000 * sH;
-    stx.globalAlpha = 0.10 + 0.10*Math.sin(st*0.02 + i);
-    stx.fillStyle = '#f0cd86';
-    stx.beginPath(); stx.arc(x,y,0.9,0,Math.PI*2); stx.fill();
-  }
-  stx.globalAlpha = 1;
+let typingTimeout = null;
+let isTyping = false;
 
-  for (const line of drawnLines){
-    stx.strokeStyle = 'rgba(240,205,134,0.55)';
-    stx.shadowColor = 'rgba(240,205,134,0.6)';
-    stx.shadowBlur = 8;
-    stx.lineWidth = 1.6;
-    stx.beginPath();
-    stx.moveTo(line.from.x, line.from.y);
-    stx.lineTo(line.to.x, line.to.y);
-    stx.stroke();
-    stx.shadowBlur = 0;
+function drawStar(ctx, x, y, size, rotation, glow){
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(rotation);
+  ctx.beginPath();
+  
+  // 5-pointed star math
+  const spikes = 5;
+  const outerRadius = size;
+  const innerRadius = size * 0.4;
+  
+  for (let i = 0; i < spikes * 2; i++) {
+    const radius = i % 2 === 0 ? outerRadius : innerRadius;
+    const angle = (Math.PI / spikes) * i - Math.PI / 2;
+    const px = Math.cos(angle) * radius;
+    const py = Math.sin(angle) * radius;
+    if (i === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
   }
-  if (activeLine){
-    activeLine.progress = Math.min(1, activeLine.progress + 0.025);
-    const px = activeLine.from.x + (activeLine.to.x - activeLine.from.x) * activeLine.progress;
-    const py = activeLine.from.y + (activeLine.to.y - activeLine.from.y) * activeLine.progress;
-    stx.strokeStyle = 'rgba(240,205,134,0.75)';
-    stx.shadowColor = 'rgba(240,205,134,0.8)';
-    stx.shadowBlur = 12;
-    stx.lineWidth = 2;
-    stx.beginPath();
-    stx.moveTo(activeLine.from.x, activeLine.from.y);
-    stx.lineTo(px, py);
-    stx.stroke();
-    stx.shadowBlur = 0;
-    if (activeLine.progress >= 1){
-      drawnLines.push({ from: activeLine.from, to: activeLine.to });
-      activeLine = null;
-    }
+  
+  ctx.closePath();
+  
+  if (glow > 0){
+    ctx.shadowColor = 'rgba(240,205,134,' + glow + ')';
+    ctx.shadowBlur = 25 * glow;
   }
+  
+  // Warmer star gradient
+  const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, size);
+  grd.addColorStop(0, '#ffffff'); // bright white core
+  grd.addColorStop(0.3, '#f0cd86'); // gold
+  grd.addColorStop(1, '#c9868c'); // rose edges
+  
+  ctx.fillStyle = grd;
+  ctx.fill();
+  
+  // Add a tiny white glowing dot in the center
+  ctx.beginPath();
+  ctx.arc(0, 0, size * 0.15, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
 
-  for (let i = 0; i < STARS2.length; i++){
-    const s = STARS2[i];
-    s.tw += 0.03;
-    const isNext = i === tapIndex;
-    const isTapped = tappedSet.has(i);
-    const glow = isNext ? 0.6 + 0.4 * Math.sin(s.tw * 2) : (isTapped ? 0.15 : 0.05);
-    const scale = isNext ? 1.15 : (isTapped ? 1 : 0.9);
-    const rotation = isTapped ? s.tw * 0.4 : Math.sin(s.tw * 0.3) * 0.1;
-    drawStar(stx, s.x, s.y, s.r * scale, rotation, glow);
-    if (isNext){
-      stx.beginPath();
-      stx.arc(s.x, s.y, s.r * 2.4 + Math.sin(s.tw * 2) * 4, 0, Math.PI * 2);
-      stx.strokeStyle = 'rgba(240,205,134,0.35)';
-      stx.lineWidth = 1.2;
-      stx.stroke();
-    }
-  }
-  st++;
-  requestAnimationFrame(drawStars);
+  ctx.restore();
 }
 
 const reasons = [
