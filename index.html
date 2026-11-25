@@ -153,11 +153,46 @@ main.show{opacity:1}
 
 /* GLOBE */
 .globe-wrap{position:relative;max-width:900px;margin:0 auto}
-#globeCanvas{width:100%;aspect-ratio:1.85/1;display:block;border-radius:28px;background:radial-gradient(circle at 50% 40%, rgba(201,134,140,0.15), rgba(22,10,19,0.9) 70%);border:1px solid var(--glass-border);box-shadow:var(--shadow-deep)}
-
+#globeCanvas {
+  width: 100%;
+  aspect-ratio: 1.85/1;
+  display: block;
+  border-radius: 28px;
+  /* Deep space background inside the box */
+  background: radial-gradient(circle at 50% 50%, rgba(35, 16, 31, 0.8) 0%, rgba(16, 8, 15, 1) 100%);
+  border: 1px solid rgba(240, 205, 134, 0.15);
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.8), 0 20px 50px rgba(0,0,0,0.5);
+}
 /* CAKE */
-.cake-stage{perspective:1400px;display:flex;justify-content:center;padding:60px 0 20px;position:relative}
-#cake3d{transform-style:preserve-3d;transition:transform .22s cubic-bezier(.2,.8,.2,1);position:relative;width:min(340px,86vw)}
+.cake-stage{
+  perspective:1400px;
+  display:flex;
+  justify-content:center;
+  padding:60px 0 20px;
+  position:relative;
+  /* Add a warm, breathing oven glow to the background */
+  background: radial-gradient(circle at 50% 80%, rgba(242,167,107,0.15) 0%, transparent 60%);
+  border-radius: 28px;
+  animation: fireGlow 4s infinite alternate ease-in-out;
+}
+
+@keyframes fireGlow {
+  0% { background-size: 100% 100%; }
+  100% { background-size: 120% 120%; }
+}
+#cake3d {
+  transform-style: preserve-3d;
+  transition: transform 0.22s cubic-bezier(.2,.8,.2,1);
+  position: relative;
+  width: min(340px,86vw);
+  /* Make it levitate */
+  animation: levitate 4s infinite ease-in-out;
+}
+
+@keyframes levitate {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
 .cake-glow{position:absolute;left:50%;top:40%;width:280px;height:280px;transform:translate(-50%,-50%);background:radial-gradient(circle, rgba(242,167,107,0.35), transparent 65%);filter:blur(30px);pointer-events:none;z-index:0;animation:cakeGlow 3s ease-in-out infinite}
 @keyframes cakeGlow{0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:0.95;transform:translate(-50%,-50%) scale(1.15)}}
 .cake-tier{position:relative;margin:0 auto;border-radius:16px 16px 10px 10px;box-shadow:0 20px 40px -14px rgba(0,0,0,0.6),inset 0 4px 0 rgba(255,255,255,0.12),inset 0 -6px 14px rgba(0,0,0,0.25);z-index:2}
@@ -190,7 +225,28 @@ main.show{opacity:1}
 
 /* CONSTELLATION */
 .constellation-wrap{position:relative;max-width:780px;margin:0 auto}
-#starCanvas{width:100%;aspect-ratio:1.3/1;display:block;border-radius:28px;background:radial-gradient(circle at 30% 20%, rgba(201,134,140,0.22), transparent 55%),radial-gradient(circle at 70% 80%, rgba(214,176,106,0.18), transparent 55%),linear-gradient(160deg, #1a0a15, #23101f);border:1px solid var(--glass-border);box-shadow:var(--shadow-deep);cursor:pointer;touch-action:manipulation}
+#starCanvas {
+  width: 100%;
+  aspect-ratio: 1.3/1;
+  display: block;
+  border-radius: 28px;
+  /* Deep cosmic nebula background */
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(201,134,140,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(157,78,221,0.15) 0%, transparent 50%),
+    linear-gradient(160deg, #160a13 0%, #23101f 100%);
+  background-size: 200% 200%;
+  border: 1px solid rgba(240, 205, 134, 0.2);
+  box-shadow: inset 0 0 80px rgba(0,0,0,0.8), 0 20px 50px rgba(0,0,0,0.5);
+  cursor: pointer;
+  touch-action: manipulation;
+  animation: nebulaDrift 20s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaDrift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
 .const-counter{text-align:center;margin-top:22px;font-size:11px;letter-spacing:0.32em;text-transform:uppercase;color:var(--gold);font-weight:500}
 .star-note{
   margin-top:36px;
@@ -452,6 +508,56 @@ main.show{opacity:1}
   opacity: 0.85;
   text-align: center;
 }
+
+/* THE SPECIAL CAKE CARD BACKGROUND */
+.cake-card {
+  background: 
+    /* A soft glow right behind the cake */
+    radial-gradient(circle at 50% 40%, rgba(242, 167, 107, 0.1) 0%, transparent 60%),
+    /* The deep magical dark background */
+    linear-gradient(160deg, rgba(35, 16, 31, 0.95), rgba(16, 8, 15, 0.98)) !important;
+  border: 1px solid rgba(240, 205, 134, 0.25) !important;
+  box-shadow: 
+    inset 0 0 80px rgba(0, 0, 0, 0.8), 
+    0 30px 60px -20px rgba(0, 0, 0, 0.8) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add a subtle moving starlight texture behind the cake */
+.cake-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  background-image: 
+    radial-gradient(1.5px 1.5px at 10% 20%, #f0cd86 50%, transparent 100%),
+    radial-gradient(1px 1px at 80% 30%, #e8b4b8 50%, transparent 100%),
+    radial-gradient(2px 2px at 40% 70%, #ffffff 50%, transparent 100%),
+    radial-gradient(1px 1px at 70% 80%, #f0cd86 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 90% 10%, #e8b4b8 50%, transparent 100%);
+  background-size: 200px 200px;
+  animation: cakeStars 40s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes cakeStars {
+  0% { background-position: 0 0; }
+  100% { background-position: 200px 200px; }
+}
+#finalSign {
+  /* Keep your existing styles... */
+  display: inline-block; /* Need this for the animation to work */
+}
+
+.final-sign.in {
+  animation: fadeUp 1.4s ease forwards, heartBeat 2s infinite ease-in-out 1.4s;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); text-shadow: 0 0 10px rgba(240, 205, 134, 0.4); }
+  50% { transform: scale(1.1); text-shadow: 0 0 25px rgba(240, 205, 134, 0.8); }
+}
 </style>
 </head>
 <body class="locked">
@@ -581,7 +687,7 @@ main.show{opacity:1}
       <div class="eyebrow">A small ceremony</div>
       <h2 class="section-title">Make a <em>wish</em>.</h2>
     </div>
-    <div class="glass reveal" style="text-align:center">
+ <div class="glass reveal cake-card" style="text-align:center">
       <div class="cake-stage">
         <div class="cake-glow"></div>
         <div id="cake3d">
@@ -659,16 +765,13 @@ main.show{opacity:1}
         I can't be in the room with you tonight. But these are the songs I'd want playing if I could be. Press play on any of them. Drop your volume to something soft. Let them do the rest.
       </p>
       <div class="playlist" id="playlist"></div>
-      <p class="body-text" style="text-align:center;font-size:14px;opacity:0.6;margin-top:32px;font-style:italic">
-        If a track doesn't play, it means the audio file hasn't been added yet — the link will open the song in a new tab instead.
-      </p>
     </div>
   </section>
 
   <!-- 9. LETTER -->
   <section class="scene scene-narrow">
     <div class="section-head reveal">
-      <div class="eyebrow">In full, in writing</div>
+      <div class="eyebrow">♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥</div>
       <h2 class="section-title">A letter for <em>eighteen</em>.</h2>
     </div>
     <div class="letter reveal">
@@ -704,7 +807,7 @@ main.show{opacity:1}
       <div class="eyebrow">and one last thing</div>
       <p class="final-line" id="finalLine1">If I could be anywhere tonight,</p>
       <p class="final-line" id="finalLine2">I'd be right there.</p>
-      <p class="final-sign" id="finalSign">— Cee ✦</p>
+      <p class="final-sign" id="finalSign">— Cee ♥</p>
     </div>
   </section>
 
@@ -712,7 +815,7 @@ main.show{opacity:1}
     <h3 class="reveal">Happy birthday, Helena.</h3>
     <p class="reveal">Thank you for being the kind of person worth building this for. You're genuinely easy to root for. Hope eighteen treats you well, and I hope you don't drift or forget me down the road."</p>
    <a class="magic-reply reveal" href="https://t.me/qonnur" target="_blank">
-  <span class="reply-icon">✦</span>
+  <span class="reply-icon">♥</span>
   <span class="reply-text">WRITE BACK</span>
 </a>
 <p class="reveal reply-note">No rush. Whatever you're feeling/thinkng, or even if you don't know what to say yet, just know you can always talk to me. About anything. My door is open :)</p>
@@ -1330,64 +1433,94 @@ let gt = 0;
 function drawGlobe(){
   if (!gW){ sizeGlobe(); requestAnimationFrame(drawGlobe); return; }
   gctx.clearRect(0,0,gW,gH);
-  const glow = gctx.createRadialGradient(gW*0.5, gH*0.5, 20, gW*0.5, gH*0.5, Math.max(gW,gH)*0.6);
-  glow.addColorStop(0, 'rgba(232,180,184,0.10)');
-  glow.addColorStop(1, 'rgba(232,180,184,0)');
-  gctx.fillStyle = glow;
-  gctx.fillRect(0,0,gW,gH);
+
+  // 1. Draw the world dots (make them slightly darker so they don't distract from the line)
   for (const d of worldDots){
     const pulse = 0.5 + 0.5*Math.sin(gt*0.02 + d.tw);
-    gctx.globalAlpha = 0.22 + pulse*0.20;
+    gctx.globalAlpha = 0.15 + pulse*0.15;
     gctx.fillStyle = '#e8b4b8';
     gctx.beginPath();
     gctx.arc(d.x*gW, d.y*gH, 1.2, 0, Math.PI*2);
     gctx.fill();
   }
   gctx.globalAlpha = 1;
+
   const x1 = LAGOS.x*gW, y1 = LAGOS.y*gH;
   const x2 = INDONESIA.x*gW, y2 = INDONESIA.y*gH;
   const mx = (x1+x2)/2;
   const my = Math.min(y1,y2) - Math.abs(x2-x1)*0.42;
+
+  // 2. Draw the glowing thread (laser effect)
   gctx.beginPath();
   gctx.moveTo(x1,y1);
   gctx.quadraticCurveTo(mx,my,x2,y2);
-  gctx.strokeStyle = 'rgba(240,205,134,0.32)';
-  gctx.lineWidth = 1.4;
+  
+  // Create a gradient for the line: dim at ends, bright in middle
+  const lineGrad = gctx.createLinearGradient(x1, y1, x2, y2);
+  lineGrad.addColorStop(0, 'rgba(232,180,184,0.2)');
+  lineGrad.addColorStop(0.5, 'rgba(240,205,134,0.8)');
+  lineGrad.addColorStop(1, 'rgba(232,180,184,0.2)');
+  
+  gctx.strokeStyle = lineGrad;
+  gctx.lineWidth = 1.5;
+  gctx.shadowColor = 'rgba(240,205,134,0.8)';
+  gctx.shadowBlur = 12;
   gctx.stroke();
+  gctx.shadowBlur = 0; // reset
+
+  // 3. The travelling glowing orb
   const t = (Math.sin(gt*0.006)+1)/2;
   const cx = (1-t)*(1-t)*x1 + 2*(1-t)*t*mx + t*t*x2;
   const cy = (1-t)*(1-t)*y1 + 2*(1-t)*t*my + t*t*y2;
+  
+  const orbGrad = gctx.createRadialGradient(cx, cy, 0, cx, cy, 15);
+  orbGrad.addColorStop(0, '#ffffff');
+  orbGrad.addColorStop(0.3, '#f0cd86');
+  orbGrad.addColorStop(1, 'rgba(240,205,134,0)');
+  gctx.fillStyle = orbGrad;
   gctx.beginPath();
-  gctx.arc(cx, cy, 5, 0, Math.PI*2);
-  gctx.fillStyle = '#f0cd86';
-  gctx.shadowColor = '#f0cd86';
-  gctx.shadowBlur = 20;
+  gctx.arc(cx, cy, 15, 0, Math.PI*2);
   gctx.fill();
-  gctx.shadowBlur = 0;
-  drawPin(x1, y1, '#e8b4b8', 'Lagos');
-  drawPin(x2, y2, '#f0cd86', 'Indonesia');
+
+  // 4. Draw the Pins
+  drawPin(x1, y1, '#e8b4b8', 'Lagos', gt);
+  drawPin(x2, y2, '#f0cd86', 'Indonesia', gt);
+
   gt++;
   requestAnimationFrame(drawGlobe);
 }
-function drawPin(x,y,color,label){
-  const pulse = (Math.sin(gt*0.06)+1)/2;
+function drawPin(x,y,color,label, time){
+  // Expanding radar ring
+  const ping = (time % 120) / 120; // 0 to 1 loop
   gctx.beginPath();
-  gctx.arc(x,y, 10 + pulse*8, 0, Math.PI*2);
-  gctx.fillStyle = color;
-  gctx.globalAlpha = 0.12 + pulse*0.18;
-  gctx.fill();
-  gctx.globalAlpha = 1;
-  gctx.beginPath();
-  gctx.arc(x,y, 5, 0, Math.PI*2);
-  gctx.fillStyle = color;
-  gctx.fill();
-  gctx.strokeStyle = '#fff';
+  gctx.arc(x, y, 5 + ping * 30, 0, Math.PI*2);
+  gctx.strokeStyle = color;
+  gctx.globalAlpha = 1 - ping;
   gctx.lineWidth = 1.5;
   gctx.stroke();
-  gctx.font = '500 11px Inter, sans-serif';
-  gctx.fillStyle = 'rgba(247,232,223,0.85)';
+  gctx.globalAlpha = 1;
+
+  // Solid center dot
+  gctx.beginPath();
+  gctx.arc(x,y, 4, 0, Math.PI*2);
+  gctx.fillStyle = '#ffffff';
+  gctx.shadowColor = color;
+  gctx.shadowBlur = 15;
+  gctx.fill();
+  gctx.shadowBlur = 0;
+
+  // Label with a dark backing so it's readable
+  gctx.font = '600 10px Inter, sans-serif';
+  gctx.fillStyle = 'rgba(0,0,0,0.7)';
+  const textWidth = gctx.measureText(label).width;
+  gctx.beginPath();
+  gctx.roundRect(x - textWidth/2 - 6, y + 15, textWidth + 12, 18, 9);
+  gctx.fill();
+
+  gctx.fillStyle = '#f7e8df';
   gctx.textAlign = 'center';
-  gctx.fillText(label, x, y + 22);
+  gctx.textBaseline = 'middle';
+  gctx.fillText(label, x, y + 24);
 }
 
 const cake3d = $('#cake3d');
@@ -1479,19 +1612,75 @@ function blowOut(){
   cancelAnimationFrame(micRAF);
   if (micStream){ micStream.getTracks().forEach(t => t.stop()); micStream = null; }
   micBtn.textContent = 'Use my mic';
+  
+  // 1. Blow out flames
   flames.forEach(f => f.classList.add('out'));
+  
+  // 2. Get the exact center of the cake for the explosion
   const r = cake3d.getBoundingClientRect();
-  confetti(r.left + r.width/2, r.top + 30, 90);
+  const cakeCenterX = r.left + r.width / 2;
+  const cakeCenterY = r.top + r.height / 2;
+
+  // 3. Golden magical burst directly from the cake
+  confetti(cakeCenterX, cakeCenterY, 120);
+  
+  // 4. Play the magical chord
   chime(523, 1.1, 0.06);
   setTimeout(() => chime(659, 1.0, 0.05), 140);
   setTimeout(() => chime(784, 1.2, 0.06), 280);
   setTimeout(() => chime(1047, 1.4, 0.05), 420);
+
+  // 5. Flash the screen gold for a split second
+  const flash = document.createElement('div');
+  flash.style.position = 'fixed';
+  flash.style.inset = '0';
+  flash.style.background = 'rgba(240, 205, 134, 0.4)';
+  flash.style.zIndex = '999';
+  flash.style.pointerEvents = 'none';
+  flash.style.opacity = '1';
+  flash.style.transition = 'opacity 0.8s ease-out';
+  document.body.appendChild(flash);
+  
+  setTimeout(() => { flash.style.opacity = '0'; }, 50);
+  setTimeout(() => { flash.remove(); }, 900);
+
+   // 6. Reveal the wish text
   cakeDone.classList.add('show');
   toast('Wish sent ✨');
+
+  // 7. AUTOPLAY "PINK + WHITE" AND DUCK THE BG MUSIC
+  setTimeout(() => {
+    // Find the 4th track (index 3) which is Pink + White
+    const pinkWhiteAudio = audioEls[3];
+    const pinkWhiteBtn = document.querySelectorAll('.track-play')[3];
+    
+    if (pinkWhiteAudio && pinkWhiteBtn) {
+      // Pause all other tracks just in case
+      audioEls.forEach(a => a.pause());
+      
+      // Play Pink + White
+      pinkWhiteAudio.play().catch(() => {
+        // If the browser blocks it (due to autoplay policies), we just let it slide.
+        // The chimes will still play.
+      });
+      
+      // Visually update the button to show it's playing
+      pinkWhiteBtn.classList.add('playing');
+      pinkWhiteBtn.textContent = '❚❚';
+      
+      // The `play` event we wired up earlier will automatically
+      // duck (fade out) the Happy Birthday background music!
+    }
+  }, 1500); // 1.5 seconds after the candles go out, the song begins.
 }
+
 relightBtn.addEventListener('click', () => {
-  blown = false; setWind(0);
-  flames.forEach(f => { f.classList.remove('out'); f.style.transform = ''; });
+  blown = false; 
+  setWind(0);
+  flames.forEach(f => { 
+    f.classList.remove('out'); 
+    f.style.transform = ''; 
+  });
   cakeDone.classList.remove('show');
   toast('Candles relit — make another wish');
 });
@@ -1729,11 +1918,20 @@ function handleStarTap(clientX, clientY){
     lineProgress = 0;
   }
   showNote(idx);
-  if (idx === STARS2.length - 1){
+   if (idx === STARS2.length - 1){
     setTimeout(() => {
-      confetti(window.innerWidth / 2, window.innerHeight / 2, 80);
+      // 1. Confetti bursts from the center of the canvas, not the screen
+      const rect = starCv.getBoundingClientRect();
+      confetti(rect.left + rect.width/2, rect.top + rect.height/2, 100);
+      
+      // 2. Play a massive magical chord
       chime(523, 1.1, 0.06); setTimeout(() => chime(659, 1.0, 0.05), 140);
       setTimeout(() => chime(784, 1.2, 0.06), 280); setTimeout(() => chime(1047, 1.5, 0.06), 420);
+      setTimeout(() => chime(1318, 2.0, 0.05), 600); 
+      
+      // 3. Trigger the Heart Explosion effect (we will add this in the next step)
+      triggerHeartExplosion();
+      
       toast('You found them all ✦');
     }, 600);
   }
@@ -1749,12 +1947,26 @@ let st = 0;
 function drawStars(){
   if (!sW){ sizeStars(); requestAnimationFrame(drawStars); return; }
   stx.clearRect(0,0,sW,sH);
-  for (let i=0;i<48;i++){
+    // Living background dust
+  for (let i=0;i<60;i++){
     const x = ((i*97)%1000)/1000 * sW, y = ((i*53)%1000)/1000 * sH;
-    stx.globalAlpha = 0.10 + 0.10*Math.sin(st*0.02 + i);
-    stx.fillStyle = '#f0cd86'; stx.beginPath(); stx.arc(x,y,0.9,0,Math.PI*2); stx.fill();
+    const pulse = 0.5 + 0.5*Math.sin(st*0.03 + i);
+    stx.globalAlpha = 0.1 + (pulse * 0.2);
+    stx.fillStyle = i % 3 === 0 ? '#d9cfe8' : '#f0cd86'; // mixed purple and gold dust
+    stx.beginPath(); stx.arc(x,y, 1 + pulse, 0, Math.PI*2); stx.fill();
   }
   stx.globalAlpha = 1;
+
+  // Glowing drawn lines
+  for (const line of drawnLines){
+    stx.strokeStyle = 'rgba(240,205,134,0.8)'; 
+    stx.shadowColor = '#f0cd86'; 
+    stx.shadowBlur = 10; 
+    stx.lineWidth = 1.5;
+    stx.beginPath(); stx.moveTo(line.from.x, line.from.y); stx.lineTo(line.to.x, line.to.y); stx.stroke(); 
+    stx.shadowBlur = 0;
+  }
+
   for (const line of drawnLines){
     stx.strokeStyle = 'rgba(240,205,134,0.55)'; stx.shadowColor = 'rgba(240,205,134,0.6)'; stx.shadowBlur = 8; stx.lineWidth = 1.6;
     stx.beginPath(); stx.moveTo(line.from.x, line.from.y); stx.lineTo(line.to.x, line.to.y); stx.stroke(); stx.shadowBlur = 0;
@@ -1805,12 +2017,88 @@ reasons.forEach((r, i) => {
 /* add styles for reason card */
 const reasonStyle = document.createElement('style');
 reasonStyle.textContent = `
-.reasons-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1100px;margin:0 auto}
-.reason{padding:28px 26px;background:linear-gradient(160deg,rgba(232,180,184,0.10),rgba(35,16,31,0.6));border:1px solid var(--glass-border);border-radius:22px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease,border-color .5s ease;position:relative;overflow:hidden}
-.reason::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-bright),transparent);opacity:0.4}
-.reason:hover{transform:translateY(-8px);box-shadow:0 30px 60px -20px rgba(242,167,107,0.35);border-color:rgba(240,205,134,0.5)}
-.reason .num{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--gold);margin-bottom:14px}
-.reason p{font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.5;margin:0;color:var(--ink);font-weight:400}
+/* DESKTOP GRID (Unchanged) */
+.reasons-wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.reason {
+  padding: 28px 26px;
+  background: linear-gradient(160deg, rgba(232,180,184,0.10), rgba(35,16,31,0.6));
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s ease, border-color .5s ease;
+  position: relative;
+}
+
+.reason::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-bright), transparent);
+  opacity: 0.4;
+}
+
+.reason:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px -20px rgba(242,167,107,0.35);
+  border-color: rgba(240,205,134,0.5);
+}
+
+.reason .num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.reason p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+/* =========================================
+   MOBILE SLIDER (The magic part)
+   ========================================= */
+@media (max-width: 768px) {
+  .reasons-wrap {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    padding: 10px 20px 30px 20px; /* Top, Right, Bottom, Left padding */
+    margin: 0 -20px; /* Pulls the slider to the edges of the phone screen */
+    
+    /* Hide the scrollbar for a clean look */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+  }
+  
+  .reasons-wrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  .reason {
+    /* This makes the card 80% of the screen width, leaving 20% for the "peek" */
+    min-width: 80vw; 
+    scroll-snap-align: center;
+    /* Reset the hover effect so it doesn't get stuck on mobile */
+    transform: none !important;
+  }
+}
 `;
 document.head.appendChild(reasonStyle);
 
@@ -2005,6 +2293,63 @@ const wishCard = document.querySelector('.wish-body');
 const letterCard = document.querySelector('.letter-body');
 if (wishCard) typeObserver.observe(wishCard);
 if (letterCard) typeObserver.observe(letterCard);
+
+// --- THE HEART EXPLOSION EFFECT ---
+let explosionParticles = [];
+let isExploding = false;
+
+function triggerHeartExplosion() {
+  isExploding = true;
+  explosionParticles = [];
+  const centerX = sW / 2;
+  const centerY = sH / 2;
+  
+  // Spawn 150 glowing particles that shoot outward
+  for (let i = 0; i < 150; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 8 + 2;
+    explosionParticles.push({
+      x: centerX,
+      y: centerY,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      life: 1, // 1 to 0
+      decay: Math.random() * 0.02 + 0.01,
+      color: Math.random() > 0.5 ? '#f0cd86' : '#d9cfe8',
+      size: Math.random() * 3 + 1
+    });
+  }
+}
+
+// Modify your drawStars() function to render the explosion.
+// Find the very end of drawStars(), right above `st++; requestAnimationFrame(drawStars);`
+// and paste this block:
+
+  if (isExploding && explosionParticles.length > 0) {
+    for (let i = explosionParticles.length - 1; i >= 0; i--) {
+      const p = explosionParticles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vx *= 0.96; // friction
+      p.vy *= 0.96;
+      p.life -= p.decay;
+      
+      if (p.life <= 0) {
+        explosionParticles.splice(i, 1);
+        continue;
+      }
+      
+      stx.globalAlpha = p.life;
+      stx.fillStyle = p.color;
+      stx.shadowColor = p.color;
+      stx.shadowBlur = 10;
+      stx.beginPath();
+      stx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      stx.fill();
+    }
+    stx.globalAlpha = 1;
+    stx.shadowBlur = 0;
+  }
 })();
 </script>
 <script>
