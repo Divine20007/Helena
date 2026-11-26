@@ -1074,12 +1074,60 @@ main.show{opacity:1}
   transform: translateY(-10px);
   filter: blur(8px);
 }
+
+/* --- FLOATING SCREEN WHISPERS --- */
+.screen-whisper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 900; /* Above the background, below the secret letter pop-up */
+  pointer-events: none; /* Crucial: she can still scroll and tap through it */
+  
+  /* The dramatic animation setup */
+  opacity: 0;
+  transform: scale(0.9) translateY(20px);
+  filter: blur(10px);
+  transition: opacity 1.5s ease, transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), filter 1.5s ease;
+}
+
+/* The class that triggers the dramatic fade-in */
+.screen-whisper.show {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  filter: blur(0);
+}
+
+.screen-whisper-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 5vw, 54px);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--rose);
+  text-align: center;
+  padding: 0 20px;
+  line-height: 1.3;
+  text-shadow: 
+    0 0 30px rgba(232, 180, 184, 0.8), 
+    0 0 60px rgba(240, 205, 134, 0.4);
+}
+
+@media (max-width: 768px) {
+  .screen-whisper-text {
+    font-size: clamp(24px, 8vw, 40px);
+  }
+}
 </style>
 </head>
 <body class="locked">
 
 <canvas id="bgCanvas"></canvas>
 <div id="toast"></div>
+<!-- FLOATING WHISPER OVERLAY -->
+<div id="screenWhisper" class="screen-whisper">
+  <span id="screenWhisperText" class="screen-whisper-text"></span>
+</div>
 
 <section id="curtain">
   <canvas id="curtainCanvas"></canvas>
@@ -2998,7 +3046,7 @@ function updateTimeZones() {
 updateTimeZones();
 setInterval(updateTimeZones, 1000);
 
-// --- THE 20-SECOND WHISPERS ---
+// --- FLOATING SCREEN WHISPERS ---
 const whispers = [
   "I'm getting really fond of you 🥹",
   "I'm really glad I met you.",
@@ -3023,26 +3071,38 @@ const whispers = [
 ];
 
 let whisperIndex = 0;
-const whisperEl = document.getElementById('whisperText');
+const whisperOverlay = document.getElementById('screenWhisper');
+const whisperTextEl = document.getElementById('screenWhisperText');
 
-function cycleWhispers() {
-  if (!whisperEl) return;
+function triggerWhisper() {
+  // Don't show a whisper if she's currently looking at the final 3D "I adore you" screen
+  const secretOverlay = document.getElementById('secretLetterOverlay');
+  if (secretOverlay && secretOverlay.classList.contains('show')) return;
 
-  // 1. Apply the fade-out blur class
-  whisperEl.classList.add('fading');
+  if (!whisperOverlay || !whisperTextEl) return;
 
-  // 2. Wait for the fade out to finish (1.5 seconds), then change text
+  // 1. Set the text (shuffling through the list)
+  whisperTextEl.textContent = whispers[whisperIndex];
+  whisperIndex = (whisperIndex + 1) % whispers.length;
+
+  // 2. Fade it in dramatically
+  whisperOverlay.classList.add('show');
+
+  // 3. Play a very soft, magical chime
+  chime(880, 1.2, 0.02); 
+
+  // 4. After 3.5 seconds, fade it out
   setTimeout(() => {
-    whisperIndex = (whisperIndex + 1) % whispers.length;
-    whisperEl.textContent = whispers[whisperIndex];
-    
-    // 3. Remove the fade-out class to bring the new text in
-    whisperEl.classList.remove('fading');
-  }, 1500);
+    whisperOverlay.classList.remove('show');
+  }, 3500); 
 }
 
-// Start the loop (20,000 milliseconds = 20 seconds)
-setInterval(cycleWhispers, 20000);
+// Start the loop. First one appears 10 seconds after she clicks "Begin".
+setTimeout(() => {
+  triggerWhisper();
+  // Then trigger every 20 seconds after that
+  setInterval(triggerWhisper, 20000);
+}, 10000);
 })();
 </script>
 
