@@ -7,7 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -558,6 +558,522 @@ main.show{opacity:1}
   0%, 100% { transform: scale(1); text-shadow: 0 0 10px rgba(240, 205, 134, 0.4); }
   50% { transform: scale(1.1); text-shadow: 0 0 25px rgba(240, 205, 134, 0.8); }
 }
+/* THE SECRET LETTER OVERLAY */
+.secret-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 8, 15, 0.7); /* softer, semi-transparent */
+  backdrop-filter: blur(15px); /* The magic background blur */
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease, backdrop-filter 1s ease;
+}
+
+.secret-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.secret-card {
+  background: linear-gradient(160deg, rgba(35, 16, 31, 0.9), rgba(16, 8, 15, 0.95));
+  border: 1px solid rgba(201, 134, 140, 0.3);
+  border-radius: 28px;
+  padding: clamp(30px, 5vw, 60px);
+  max-width: 700px;
+  width: 100%;
+  box-shadow: 0 40px 100px -20px rgba(0,0,0,0.9);
+  max-height: 85vh; /* Stops it from going off the screen */
+  overflow-y: auto; /* Lets her scroll if the text is long */
+  position: relative;
+}
+
+.secret-title {
+  font-family: 'Cormorant Garamond', serif;
+  color: #c9868c; /* soft crimson/rose */
+  font-size: 28px;
+  font-style: italic;
+  margin-top: 0;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* The Crimson Glitter Cursor */
+.secret-cursor {
+  display: inline-block;
+  width: 4px;
+  height: 1.2em;
+  background: #ff0033; /* pure crimson red */
+  margin-left: 3px;
+  vertical-align: middle;
+  box-shadow: 0 0 15px 4px rgba(255, 0, 51, 0.8), 0 0 30px 8px rgba(255, 0, 51, 0.4);
+  animation: redBlink 0.8s infinite;
+}
+
+@keyframes redBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* The text color for the letter */
+.secret-body p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.8;
+  color: #f7e8df; /* warm ivory */
+  margin-bottom: 1.5em;
+}
+
+/* --- SURREAL 3D OVERLAY --- */
+.secret-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(35,16,31,0.8), rgba(10,4,8,0.95));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease;
+  overflow: hidden;
+}
+.secret-overlay.show { opacity: 1; pointer-events: auto; }
+
+/* The floating chaos letters */
+.chaos-letter {
+  position: absolute;
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(40px, 8vw, 100px);
+  color: #f0cd86;
+  text-shadow: 0 0 20px rgba(240,205,134,0.8);
+  will-change: transform, opacity;
+  transition: transform 2.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+}
+
+/* The final massive 3D Text */
+.adore-3d {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(60px, 12vw, 160px);
+  margin: 0;
+  color: #f7e8df;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  /* The 3D Effect */
+  text-shadow: 
+    0 1px 0 #c9868c, 0 2px 0 #c9868c, 0 3px 0 #c9868c, 
+    0 4px 0 #c9868c, 0 5px 0 #c9868c, 0 6px 0 #c9868c,
+    0 7px 0 #c9868c, 0 8px 0 #c9868c,
+    0 0 40px rgba(240,205,134,0.8), 
+    0 0 80px rgba(240,205,134,0.4);
+  animation: float3d 4s ease-in-out infinite;
+}
+
+.adore-sub {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(40px, 6vw, 80px);
+  color: #f0cd86;
+  text-shadow: 0 0 20px rgba(240,205,134,0.8);
+}
+
+@keyframes float3d {
+  0%, 100% { transform: translateY(0) rotateX(0deg); }
+  50% { transform: translateY(-15px) rotateX(10deg); }
+}
+
+@keyframes wander {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  50% { transform: translate(30px, -50px) rotate(45deg) scale(1.2); }
+  100% { transform: translate(-40px, 30px) rotate(-30deg) scale(0.8); }
+}
+
+/* --- SURREAL 3D OVERLAY UPGRADE --- */
+.secret-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(35, 10, 25, 0.95), rgba(10, 3, 8, 1)); /* Deep purple/plum */
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease;
+  overflow: hidden;
+}
+.secret-overlay.show { opacity: 1; pointer-events: auto; }
+
+/* The Glowing Box */
+.before-go-box {
+  position: absolute;
+  top: 8%;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #f7e8df;
+  padding: 16px 45px;
+  border-radius: 99px;
+  background: rgba(35, 16, 31, 0.7);
+  border: 1px solid rgba(232, 180, 184, 0.4); /* Rose border */
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(232,180,184,0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 20;
+}
+.before-go-box.show {
+  opacity: 1;
+  transform: translateY(0);
+  animation: boxPulse 3s infinite alternate;
+}
+@keyframes boxPulse {
+  0% { box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(232,180,184,0.1); }
+  100% { box-shadow: 0 10px 50px rgba(232,180,184,0.2), inset 0 0 30px rgba(232,180,184,0.3); }
+}
+
+/* The Flying Letters */
+.flying-letter {
+  position: absolute;
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(40px, 8vw, 100px);
+  color: #f7e8df;
+  text-shadow: 0 0 25px rgba(232, 180, 184, 0.8); /* Pink glow */
+  will-change: transform, left, top;
+}
+
+/* The final 3D Text Style */
+.adore-3d {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(50px, 10vw, 130px);
+  margin: 0;
+  color: #f7e8df;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  /* Carved 3D effect with deep purple/rose shadows */
+  text-shadow: 
+    0 1px 0 #5c2c45, 0 2px 0 #5c2c45, 0 3px 0 #5c2c45, 
+    0 4px 0 #5c2c45, 0 5px 0 #5c2c45, 0 6px 0 #5c2c45,
+    0 7px 0 #5c2c45, 0 8px 0 #5c2c45,
+    0 0 40px rgba(232, 180, 184, 0.8); /* Rose glow */
+}
+
+.adore-sub {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(40px, 6vw, 80px);
+  color: var(--rose); /* Rose gold */
+  text-shadow: 0 0 20px rgba(232, 180, 184, 0.8);
+}
+
+/* Chaos Path Animations */
+@keyframes snakeMove1 {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  25% { transform: translate(150px, -200px) rotate(90deg) scale(1.2); }
+  50% { transform: translate(-100px, -300px) rotate(180deg) scale(0.9); }
+  75% { transform: translate(-200px, 100px) rotate(270deg) scale(1.1); }
+  100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+}
+@keyframes snakeMove2 {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  33% { transform: translate(-200px, 150px) rotate(-120deg) scale(0.8); }
+  66% { transform: translate(200px, 200px) rotate(-240deg) scale(1.3); }
+  100% { transform: translate(0, 0) rotate(-360deg) scale(1); }
+}
+@keyframes snakeMove3 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(250px, -150px) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* =========================================
+   MOBILE PERFECTION FIXES (Only affects screens < 768px)
+   ========================================= */
+@media (max-width: 768px) {
+  
+  /* 1. Force everything to stay within the screen */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100%;
+  }
+
+  /* 2. Center the "Before you go" box perfectly */
+  .before-go-box {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: max-content;
+    max-width: 90vw;
+    text-align: center;
+    padding: 12px 24px;
+    font-size: 12px;
+  }
+
+  /* 3. Fix the 3D text so it doesn't cut off */
+  .adore-3d {
+    font-size: clamp(32px, 10vw, 50px) !important;
+    white-space: normal !important; /* Allows text to wrap if screen is tiny */
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* 4. Center the glass cards and ensure they don't touch the edges */
+  .glass, .letter, .wish-card {
+    padding: 24px 20px !important;
+    width: 94% !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+  }
+
+  /* Keep the text inside the cards left-aligned for readability */
+  .wish-card .wish-body, .letter-body {
+    text-align: left !important;
+  }
+
+  /* 5. Fix the playlist tracks (songs) from overflowing */
+  .track {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px !important;
+    gap: 15px;
+  }
+  .track-info {
+    text-align: center;
+    width: 100%;
+  }
+  .track-fallback {
+    text-align: center;
+    margin: 10px auto 0;
+  }
+
+  /* 6. Center the Telegram button and reply note */
+  .magic-reply {
+    margin: 24px auto !important;
+    display: inline-flex;
+    justify-content: center;
+  }
+  .reply-note {
+    padding: 0 15px;
+  }
+
+  /* 7. Fix the flying 3D letters container so they don't overflow */
+  #flyingLettersContainer, .secret-overlay {
+    overflow: hidden !important;
+  }
+}
+
+/* --- TIMEZONE WIDGET UPGRADE --- */
+.timezone-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  padding: 40px 30px;
+  /* Deep, rich background instead of a flat box */
+  background: radial-gradient(circle at center, rgba(201,134,140,0.1) 0%, rgba(16, 8, 15, 0.8) 100%);
+  border: 1px solid rgba(232, 180, 184, 0.2);
+  border-radius: 28px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 
+    0 30px 60px -15px rgba(0,0,0,0.8), 
+    inset 0 0 40px rgba(232,180,184,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Soft breathing aura on the box */
+.timezone-widget::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(240, 205, 134, 0.05), transparent 70%);
+  animation: breatheGlow 4s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes breatheGlow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.tz-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+.tz-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.tz-city {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(214, 176, 106, 0.5);
+}
+
+.tz-time {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 44px;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1;
+  text-shadow: 
+    0 0 20px rgba(232, 180, 184, 0.6),
+    0 0 40px rgba(232, 180, 184, 0.3);
+  letter-spacing: 0.02em;
+}
+
+.tz-status {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--ink-soft);
+  opacity: 0.8;
+  margin-top: 6px;
+}
+
+/* The Center Heart & Divider */
+.tz-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  position: relative;
+}
+
+.tz-heart-glow {
+  color: #ff4d6d;
+  font-size: 24px;
+  text-shadow: 0 0 15px #ff4d6d, 0 0 30px rgba(255, 77, 109, 0.6);
+  animation: heartBeat 2s infinite ease-in-out;
+  z-index: 2;
+  background: #160a13;
+  padding: 6px;
+  border-radius: 50%;
+}
+
+/* The glowing line stretching behind the heart */
+.tz-line {
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  right: -20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 77, 109, 0.4), transparent);
+  z-index: 1;
+}
+
+.tz-caption {
+  margin: 30px 0 0 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--ink-soft);
+  text-align: center;
+  line-height: 1.6;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.2); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.15); }
+}
+
+@media (max-width: 768px) {
+  .tz-time { font-size: 32px; }
+  .tz-city { font-size: 9px; letter-spacing: 0.2em; }
+  .tz-heart-glow { font-size: 18px; }
+  .timezone-widget { padding: 30px 15px; margin-top: 30px; width: 90%; }
+}
+
+/* --- THE WHISPER SECTION --- */
+.whisper-section {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px; /* Gives it room to breathe */
+}
+
+.whisper-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.whisper-icon {
+  color: var(--gold);
+  font-size: 14px;
+  opacity: 0.5;
+  animation: pulseIcon 3s infinite alternate;
+}
+
+@keyframes pulseIcon {
+  0% { opacity: 0.2; transform: scale(0.8); }
+  100% { opacity: 0.8; transform: scale(1.2); }
+}
+
+.whisper-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 4vw, 40px);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--rose);
+  margin: 0;
+  line-height: 1.4;
+  text-shadow: 0 0 30px rgba(232, 180, 184, 0.3);
+  
+  /* The cinematic fade transition */
+  transition: opacity 1.5s ease, transform 1.5s ease, filter 1.5s ease;
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Class to apply when it's time to change the text */
+.whisper-text.fading {
+  opacity: 0;
+  transform: translateY(-10px);
+  filter: blur(8px);
+}
 </style>
 </head>
 <body class="locked">
@@ -679,6 +1195,29 @@ main.show{opacity:1}
         </p>
       </div>
     </div>
+             <!-- TIMEZONE WIDGET -->
+      <div class="timezone-widget reveal">
+        <div class="tz-row">
+          <div class="tz-panel">
+            <span class="tz-city">Lagos</span>
+            <span class="tz-time" id="time-lagos">00:00</span>
+            <span class="tz-status">My time</span>
+          </div>
+          
+          <div class="tz-divider">
+            <div class="tz-heart-glow">♥</div>
+            <div class="tz-line"></div>
+          </div>
+
+          <div class="tz-panel">
+            <span class="tz-city">Indonesia</span>
+            <span class="tz-time" id="time-indonesia">00:00</span>
+            <span class="tz-status">Your time</span>
+          </div>
+        </div>
+        
+        <p class="tz-caption">You're a few hours ahead of me,<br>but I'm always thinking of you.</p>
+      </div>
   </section>
 
   <!-- 5. CAKE -->
@@ -703,7 +1242,7 @@ main.show{opacity:1}
         </div>
       </div>
       <p class="body-text" style="text-align:center;margin-top:20px;font-size:15px;opacity:0.85">
-       Tap the candles to hear them chime, make a wish, and blow into your mic or hold the button to put them out.
+       Make a wish and blow into your mic to put them out.
       </p>
       <div class="wind-track">
         <div class="wind-label"><span>breath</span><span id="windPct">0%</span></div>
@@ -743,6 +1282,15 @@ main.show{opacity:1}
           <div class="note-body" id="noteBody"></div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- 6.5 THE WHISPER SECTION -->
+  <section class="scene scene-narrow whisper-section">
+    <div class="whisper-container">
+      <span class="whisper-icon">✦</span>
+      <h2 class="whisper-text" id="whisperText">I'm getting really fond of you 🥹</h2>
+      <span class="whisper-icon">✦</span>
     </div>
   </section>
 
@@ -814,14 +1362,46 @@ main.show{opacity:1}
   <section class="closing">
     <h3 class="reveal">Happy birthday, Helena.</h3>
     <p class="reveal">Thank you for being the kind of person worth building this for. You're genuinely easy to root for. Hope eighteen treats you well, and I hope you don't drift or forget me down the road."</p>
-   <a class="magic-reply reveal" href="https://t.me/qonnur" target="_blank">
+ <button class="magic-reply reveal" id="writeBackBtn" type="button">
   <span class="reply-icon">♥</span>
-  <span class="reply-text">WRITE BACK</span>
-</a>
+  <span class="reply-text">Check in here</span>
+</button>
 <p class="reveal reply-note">No rush. Whatever you're feeling/thinkng, or even if you don't know what to say yet, just know you can always talk to me. About anything. My door is open :)</p>
   </section>
 
 </main>
+
+<!-- THE SECRET 3D OVERLAY -->
+<div id="secretLetterOverlay" class="secret-overlay">
+  
+  <!-- The moving galaxy background -->
+  <canvas id="secretBgCanvas" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></canvas>
+
+  <!-- The Glowing Box -->
+  <div id="beforeGoBox" class="before-go-box">
+    Before you go 🥹
+  </div>
+
+  <!-- Where the flying letters live -->
+  <div id="flyingLettersContainer" style="position: absolute; inset: 0; z-index: 5; pointer-events: none; overflow: hidden;"></div>
+
+  <!-- The final text & buttons -->
+  <div id="final3DText" style="position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; pointer-events: none; margin-top: 50px;">
+    
+    <!-- The hidden target text that the flying letters will snap to -->
+    <h1 class="adore-3d" id="targetText" style="white-space: nowrap; opacity: 0;">I ADORE YOU</h1>
+    
+    <div id="aLot" style="display: flex; align-items: center; gap: 15px; opacity: 0; transform: translateY(20px); transition: all 1s ease; margin-top: 20px;">
+      <span class="adore-sub">a lot</span>
+      <span style="font-size: 3rem; filter: drop-shadow(0 0 15px rgba(232,180,184,0.8));">🥹❤️</span>
+    </div>
+    
+    <a class="magic-reply" id="finalTelegramBtn" href="https://t.me/qonnur" target="_blank" style="opacity: 0; pointer-events: none; margin-top: 50px;">
+      <span class="reply-icon">♥</span>
+      <span class="reply-text">Done</span>
+    </a>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -1319,20 +1899,42 @@ function confetti(cx, cy, n=40){
   }
 }
 
+// Add this at the very top of your script to stop the browser from auto-scrolling on reload
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
 enterBtn.addEventListener('click', () => {
   audio();
   chime(523, 0.9, 0.06);
   setTimeout(() => chime(659, 0.8, 0.05), 140);
   setTimeout(() => chime(784, 1.0, 0.05), 280);
+
+  // 1. Temporarily disable the CSS smooth-scroll
+  document.documentElement.style.scrollBehavior = 'auto';
+  
+  // 2. Instantly snap to the very top
+  window.scrollTo(0, 0);
+
+  // 3. Hide the curtain and unlock the page
   curtain.classList.add('gone');
   document.body.classList.remove('locked');
   main.classList.add('show');
-  window.scrollTo({ top: 0, behavior: 'auto' });
+
+  // 4. Let the layout settle for a tiny fraction of a second, THEN resize the canvases
   setTimeout(() => {
     window.dispatchEvent(new Event('resize'));
     revealCheck();
-    sizeWave(); sizeGlobe(); sizeStars();
-  }, 120);
+    sizeWave(); 
+    sizeGlobe(); 
+    sizeStars();
+
+    // 5. Turn smooth scrolling back on for the rest of the website
+    setTimeout(() => {
+      document.documentElement.style.scrollBehavior = 'smooth';
+    }, 100);
+    
+  }, 150); 
 });
 
 const revealEls = $$('.reveal');
@@ -1856,32 +2458,41 @@ function showNote(index){
   function typeNextChar() {
     if (!currentParaEl) {
       currentParaEl = document.createElement('p');
-      currentParaEl.style.color = '#d9cfe8'; 
       bodyEl.appendChild(currentParaEl);
       charIndex = 0;
       plainText = originalPs[pIndex] ? originalPs[pIndex].textContent : "";
     }
+
     if (charIndex < plainText.length) {
       currentParaEl.textContent += plainText[charIndex];
       currentParaEl.appendChild(cursor);
+      
       if (Math.random() < 0.25) { 
         const rect = cursor.getBoundingClientRect();
         if (rect.width > 0) spawnGlitterParticle(rect.left, rect.top);
       }
+
       charIndex++;
       typingTimeout = setTimeout(typeNextChar, 25); 
     } else {
-      if (originalPs[pIndex]) currentParaEl.innerHTML = originalPs[pIndex].innerHTML; 
+      if (originalPs[pIndex]) {
+        currentParaEl.innerHTML = originalPs[pIndex].innerHTML; 
+      }
       currentParaEl.style.color = ''; 
-      pIndex++; currentParaEl = null;
+      
+      pIndex++;
+      currentParaEl = null;
+      
       if (pIndex < originalPs.length) {
         typingTimeout = setTimeout(typeNextChar, 400); 
       } else {
-        cursor.remove(); bodyEl.classList.remove('typewriter-active');
-        isTyping = false; 
+        cursor.remove();
+        bodyEl.classList.remove('typewriter-active');
+        isTyping = false;
       }
     }
   }
+
   typingTimeout = setTimeout(typeNextChar, 300);
 }
 
@@ -1920,18 +2531,14 @@ function handleStarTap(clientX, clientY){
   showNote(idx);
    if (idx === STARS2.length - 1){
     setTimeout(() => {
-      // 1. Confetti bursts from the center of the canvas, not the screen
       const rect = starCv.getBoundingClientRect();
       confetti(rect.left + rect.width/2, rect.top + rect.height/2, 100);
       
-      // 2. Play a massive magical chord
       chime(523, 1.1, 0.06); setTimeout(() => chime(659, 1.0, 0.05), 140);
       setTimeout(() => chime(784, 1.2, 0.06), 280); setTimeout(() => chime(1047, 1.5, 0.06), 420);
       setTimeout(() => chime(1318, 2.0, 0.05), 600); 
       
-      // 3. Trigger the Heart Explosion effect (we will add this in the next step)
       triggerHeartExplosion();
-      
       toast('You found them all ✦');
     }, 600);
   }
@@ -1947,17 +2554,15 @@ let st = 0;
 function drawStars(){
   if (!sW){ sizeStars(); requestAnimationFrame(drawStars); return; }
   stx.clearRect(0,0,sW,sH);
-    // Living background dust
   for (let i=0;i<60;i++){
     const x = ((i*97)%1000)/1000 * sW, y = ((i*53)%1000)/1000 * sH;
     const pulse = 0.5 + 0.5*Math.sin(st*0.03 + i);
     stx.globalAlpha = 0.1 + (pulse * 0.2);
-    stx.fillStyle = i % 3 === 0 ? '#d9cfe8' : '#f0cd86'; // mixed purple and gold dust
+    stx.fillStyle = i % 3 === 0 ? '#d9cfe8' : '#f0cd86';
     stx.beginPath(); stx.arc(x,y, 1 + pulse, 0, Math.PI*2); stx.fill();
   }
   stx.globalAlpha = 1;
 
-  // Glowing drawn lines
   for (const line of drawnLines){
     stx.strokeStyle = 'rgba(240,205,134,0.8)'; 
     stx.shadowColor = '#f0cd86'; 
@@ -1967,10 +2572,6 @@ function drawStars(){
     stx.shadowBlur = 0;
   }
 
-  for (const line of drawnLines){
-    stx.strokeStyle = 'rgba(240,205,134,0.55)'; stx.shadowColor = 'rgba(240,205,134,0.6)'; stx.shadowBlur = 8; stx.lineWidth = 1.6;
-    stx.beginPath(); stx.moveTo(line.from.x, line.from.y); stx.lineTo(line.to.x, line.to.y); stx.stroke(); stx.shadowBlur = 0;
-  }
   if (activeLine){
     activeLine.progress = Math.min(1, activeLine.progress + 0.025);
     const px = activeLine.from.x + (activeLine.to.x - activeLine.from.x) * activeLine.progress;
@@ -1979,6 +2580,7 @@ function drawStars(){
     stx.beginPath(); stx.moveTo(activeLine.from.x, activeLine.from.y); stx.lineTo(px, py); stx.stroke(); stx.shadowBlur = 0;
     if (activeLine.progress >= 1){ drawnLines.push({ from: activeLine.from, to: activeLine.to }); activeLine = null; }
   }
+
   for (let i = 0; i < STARS2.length; i++){
     const s = STARS2[i]; s.tw += 0.03;
     const isNext = i === tapIndex, isTapped = tappedSet.has(i);
@@ -1991,13 +2593,32 @@ function drawStars(){
       stx.strokeStyle = 'rgba(240,205,134,0.35)'; stx.lineWidth = 1.2; stx.stroke();
     }
   }
+
+  if (isExploding && explosionParticles.length > 0) {
+    for (let i = explosionParticles.length - 1; i >= 0; i--) {
+      const p = explosionParticles[i];
+      p.x += p.vx; p.y += p.vy; p.vx *= 0.96; p.vy *= 0.96; p.life -= p.decay;
+      if (p.life <= 0) { explosionParticles.splice(i, 1); continue; }
+      stx.globalAlpha = p.life; stx.fillStyle = p.color; stx.shadowColor = p.color; stx.shadowBlur = 10;
+      stx.beginPath(); stx.arc(p.x, p.y, p.size, 0, Math.PI * 2); stx.fill();
+    }
+    stx.globalAlpha = 1; stx.shadowBlur = 0;
+  }
+
   st++; requestAnimationFrame(drawStars);
 }
 
 const reasons = [
-  { text: "I grew to like you more in a short time than I've liked most people in a long one. That surprised me. I'm not easily surprised." },
+  { text: "I grew to like you more in a short time than I've liked most people in a long one. That surprised me." },
+  { text: "The six hours between us used to feel like a wall. Lately, it just feels like a clock I actually pay attention to."},
+  {text: "You apologize too easily for things that aren't your fault. You never have to explain being yourself or needing space to me."},
+  { text: "The way two people can sit on a call saying almost nothing, and neither one feels the need to rush off because they love and value each other's presence." },
+  {text: "It doesn't take much for you to change the whole mood of my day. Just seeing your name pop up on my notifications does it."},
+  { text: "Hearing that you miss my voice just as much made every quiet moment before it make sense." },
+{ text: "Even when you're half-asleep and ready to log off, you still take the time to say good night properly." },
+{ text: "You don't try to force a conversation when you're tired or stuck on words. You just stay honest about it, and I respect that." },
+  {text: "I don't know where every single day takes us, and I don't need to rush it. I just know I'm really glad you're here."},
   { text: "I love hearing your voice. I wish we'd talk way more. There's a specific kind of vibe in it that I haven't found in many people." },
-  { text: "You don't perform. You don't try to be the loudest person on a call. You don't have to be. You're already noticed, you re different." },
   { text: "There's a softness to you that you don't apologise for. I hope you never start." },
   { text: "Talking to you doesn't feel like effort. It feels like the best and the easiest part of my day." },
   { text: "The distance doesn't make me want to know you less. It makes me want to be more deliberate about it." },
@@ -2014,124 +2635,28 @@ reasons.forEach((r, i) => {
   el.addEventListener('mouseenter', () => chime(520 + Math.random()*300, 0.3, 0.02));
   reasonsWrap.appendChild(el);
 });
-/* add styles for reason card */
+
 const reasonStyle = document.createElement('style');
 reasonStyle.textContent = `
-/* DESKTOP GRID (Unchanged) */
-.reasons-wrap {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.reason {
-  padding: 28px 26px;
-  background: linear-gradient(160deg, rgba(232,180,184,0.10), rgba(35,16,31,0.6));
-  border: 1px solid var(--glass-border);
-  border-radius: 22px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transition: transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s ease, border-color .5s ease;
-  position: relative;
-}
-
-.reason::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-bright), transparent);
-  opacity: 0.4;
-}
-
-.reason:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 30px 60px -20px rgba(242,167,107,0.35);
-  border-color: rgba(240,205,134,0.5);
-}
-
-.reason .num {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 22px;
-  color: var(--gold);
-  margin-bottom: 14px;
-}
-
-.reason p {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 21px;
-  line-height: 1.5;
-  margin: 0;
-  color: var(--ink);
-  font-weight: 400;
-}
-
-/* =========================================
-   MOBILE SLIDER (The magic part)
-   ========================================= */
+.reasons-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1100px;margin:0 auto}
+.reason{padding:28px 26px;background:linear-gradient(160deg,rgba(232,180,184,0.10),rgba(35,16,31,0.6));border:1px solid var(--glass-border);border-radius:22px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease,border-color .5s ease;position:relative;overflow:hidden}
+.reason::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-bright),transparent);opacity:0.4}
+.reason:hover{transform:translateY(-8px);box-shadow:0 30px 60px -20px rgba(242,167,107,0.35);border-color:rgba(240,205,134,0.5)}
+.reason .num{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--gold);margin-bottom:14px}
+.reason p{font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.5;margin:0;color:var(--ink);font-weight:400}
 @media (max-width: 768px) {
-  .reasons-wrap {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    gap: 16px;
-    padding: 10px 20px 30px 20px; /* Top, Right, Bottom, Left padding */
-    margin: 0 -20px; /* Pulls the slider to the edges of the phone screen */
-    
-    /* Hide the scrollbar for a clean look */
-    scrollbar-width: none; 
-    -ms-overflow-style: none;
-  }
-  
-  .reasons-wrap::-webkit-scrollbar {
-    display: none;
-  }
-
-  .reason {
-    /* This makes the card 80% of the screen width, leaving 20% for the "peek" */
-    min-width: 80vw; 
-    scroll-snap-align: center;
-    /* Reset the hover effect so it doesn't get stuck on mobile */
-    transform: none !important;
-  }
+  .reasons-wrap { display: flex; flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; gap: 16px; padding: 10px 20px 30px 20px; margin: 0 -20px; scrollbar-width: none; -ms-overflow-style: none; }
+  .reasons-wrap::-webkit-scrollbar { display: none; }
+  .reason { min-width: 80vw; scroll-snap-align: center; transform: none !important; }
 }
 `;
 document.head.appendChild(reasonStyle);
 
-/* PLAYLIST */
 const songs = [
-  {
-    title: "All In You",
-    artist: "Luh Kel",
-    why: "For the way you make me want to be present and how easily you end up on my mind without trying.",
-    file: "./songs/song1.mp3",
-    link: "https://www.youtube.com/results?search_query=Luh+Kel+All+In+You"
-  },
-  {
-    title: "Good Days",
-    artist: "SZA",
-    why: "Eighteen is a new chapter. Put this on when you're stepping into lighter days and feeling good about where you're headed.",
-    file: "./songs/song2.mp3",
-    link: "https://www.youtube.com/results?search_query=Tatiana+Manaois+Live+Forever"
-  },
-  {
-    title: "6 For 6",
-    artist: "Central Cee",
-    why: "You're growing up, moving on your own terms, and stacking your own wins. A little confidence and edge on purpose",
-    file: "./songs/song3.mp3",
-    link: "https://www.youtube.com/results?search_query=Central+Cee+6+For+6"
-  },
-  {
-    title: "Pink + White",
-    artist: "Frank Ocean",
-    why: "Slowed down and warm for the end of the night. Quiet appreciation, good energy, and letting the day wind down easy.",
-    file: "./songs/song4.mp3",
-    link: "https://www.youtube.com/results?search_query=Daniel+Caesar+Best+Part+feat+HER"
-  }
+  { title: "All In You", artist: "Luh Kel", why: "For the way you make me want to be present and how easily you end up on my mind without trying.", file: "./songs/song1.mp3", link: "https://www.youtube.com/results?search_query=Luh+Kel+All+In+You" },
+  { title: "Good Days", artist: "SZA", why: "Eighteen is a new chapter. Put this on when you're stepping into lighter days and feeling good about where you're headed.", file: "./songs/song2.mp3", link: "https://www.youtube.com/results?search_query=Tatiana+Manaois+Live+Forever" },
+  { title: "6 For 6", artist: "Central Cee", why: "You're growing up, moving on your own terms, and stacking your own wins. A little confidence and edge on purpose", file: "./songs/song3.mp3", link: "https://www.youtube.com/results?search_query=Central+Cee+6+For+6" },
+  { title: "Pink + White", artist: "Frank Ocean", why: "Slowed down and warm for the end of the night. Quiet appreciation, good energy, and letting the day wind down easy.", file: "./songs/song4.mp3", link: "https://www.youtube.com/results?search_query=Daniel+Caesar+Best+Part+feat+HER" }
 ];
 const playlistEl = $('#playlist');
 const audioEls = [];
@@ -2154,103 +2679,48 @@ songs.forEach((song, i) => {
   const btn = track.querySelector('.track-play');
   const fallback = track.querySelector('.track-fallback');
   audioEls.push(audio);
-  audio.addEventListener('error', () => {
-    fallback.classList.add('show');
-  });
+  audio.addEventListener('error', () => { fallback.classList.add('show'); });
   btn.addEventListener('click', () => {
     const playing = !audio.paused;
-    // pause all others
     audioEls.forEach(a => { if (a !== audio) a.pause(); });
-    document.querySelectorAll('.track-play').forEach(b => {
-      if (b !== btn){ b.classList.remove('playing'); b.textContent = '▶'; }
-    });
-    if (playing){
-      audio.pause();
-      btn.classList.remove('playing');
-      btn.textContent = '▶';
-    } else {
+    document.querySelectorAll('.track-play').forEach(b => { if (b !== btn){ b.classList.remove('playing'); b.textContent = '▶'; } });
+    if (playing){ audio.pause(); btn.classList.remove('playing'); btn.textContent = '▶'; } else {
       const p = audio.play();
-      if (p && p.catch){
-        p.catch(() => {
-          fallback.classList.add('show');
-          toast('Audio not added yet — use the link below');
-        });
-      }
-      btn.classList.add('playing');
-      btn.textContent = '❚❚';
+      if (p && p.catch){ p.catch(() => { fallback.classList.add('show'); toast('Audio not added yet — use the link below'); }); }
+      btn.classList.add('playing'); btn.textContent = '❚❚';
     }
   });
-  audio.addEventListener('ended', () => {
-    btn.classList.remove('playing');
-    btn.textContent = '▶';
-  });
-  fallback.addEventListener('click', () => {
-    window.open(fallback.dataset.link, '_blank', 'noopener');
-  });
+  audio.addEventListener('ended', () => { btn.classList.remove('playing'); btn.textContent = '▶'; });
+  fallback.addEventListener('click', () => { window.open(fallback.dataset.link, '_blank', 'noopener'); });
 });
 
 const finalObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting){
-      // 1. Dim the screen
       $('#finalReveal').classList.add('darkened');
-      
       const l1 = $('#finalLine1'), l2 = $('#finalLine2'), sg = $('#finalSign');
-      
-      // 2. Reveal text sequentially
       setTimeout(() => l1.classList.add('in'), 500);
       setTimeout(() => l2.classList.add('in'), 2500);
       setTimeout(() => sg.classList.add('in'), 4500);
-      
-      // 3. Launch the glowing sky lantern 6 seconds later
       setTimeout(() => {
         const lantern = $('#grandFinaleLantern');
         if (lantern) {
           lantern.classList.add('launch');
-          // Play a massive beautiful chime
-          chime(523, 2.0, 0.06);
-          setTimeout(() => chime(659, 2.0, 0.05), 200);
-          setTimeout(() => chime(784, 2.5, 0.06), 400);
-          setTimeout(() => chime(1047, 3.0, 0.06), 600);
+          chime(523, 2.0, 0.06); setTimeout(() => chime(659, 2.0, 0.05), 200);
+          setTimeout(() => chime(784, 2.5, 0.06), 400); setTimeout(() => chime(1047, 3.0, 0.06), 600);
         }
       }, 6000);
-
       finalObserver.disconnect();
     }
   });
 }, { threshold: 0.4 });
 finalObserver.observe($('#finalReveal'));
 
-window.addEventListener('mousemove', e => {
-  pointerX = e.clientX;
-  pointerY = e.clientY;
-});
-window.addEventListener('touchmove', e => {
-  if (e.touches && e.touches[0]){
-    pointerX = e.touches[0].clientX;
-    pointerY = e.touches[0].clientY;
-  }
-}, { passive: true });
+window.addEventListener('mousemove', e => { pointerX = e.clientX; pointerY = e.clientY; });
+window.addEventListener('touchmove', e => { if (e.touches && e.touches[0]){ pointerX = e.touches[0].clientX; pointerY = e.touches[0].clientY; } }, { passive: true });
+window.addEventListener('resize', () => { resizeBg(); sizeCurtain(); sizeWave(); sizeGlobe(); sizeStars(); revealCheck(); });
 
-window.addEventListener('resize', () => {
-  resizeBg();
-  sizeCurtain();
-  sizeWave();
-  sizeGlobe();
-  sizeStars();
-  revealCheck();
-});
-
-function init(){
-  resizeBg();
-  seedBg();
-  drawBg();
-  sizeCurtain();
-  drawCurtain();
-  requestAnimationFrame(drawWave);
-  requestAnimationFrame(drawGlobe);
-  requestAnimationFrame(drawStars);
-}
+function init(){ resizeBg(); seedBg(); drawBg(); sizeCurtain(); drawCurtain(); requestAnimationFrame(drawWave); requestAnimationFrame(drawGlobe); requestAnimationFrame(drawStars); }
 init();
 
 const io = new IntersectionObserver(entries => {
@@ -2262,113 +2732,324 @@ const io = new IntersectionObserver(entries => {
     }
   });
 }, { threshold: 0.05 });
-['waveCanvas','globeCanvas','starCanvas'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) io.observe(el);
-});
+['waveCanvas','globeCanvas','starCanvas'].forEach(id => { const el = document.getElementById(id); if (el) io.observe(el); });
 
 ['click','touchstart','keydown'].forEach(ev => {
-  document.addEventListener(ev, function once(){
-    audio();
-    document.removeEventListener(ev, once);
-  }, { once: true });
+  document.addEventListener(ev, function once(){ audio(); document.removeEventListener(ev, once); }, { once: true });
 });
-// THE GOLDEN QUILL WRITING EFFECT
+
 const typeObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const lines = entry.target.querySelectorAll('.type-line');
-      lines.forEach((line, index) => {
-        setTimeout(() => {
-          line.classList.add('written');
-        }, index * 600); // 400ms delay between each line writing
-      });
+      lines.forEach((line, index) => { setTimeout(() => { line.classList.add('written'); }, index * 600); });
       typeObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.2 });
 
-// Observe the wish card and the letter
 const wishCard = document.querySelector('.wish-body');
 const letterCard = document.querySelector('.letter-body');
 if (wishCard) typeObserver.observe(wishCard);
 if (letterCard) typeObserver.observe(letterCard);
 
-// --- THE HEART EXPLOSION EFFECT ---
 let explosionParticles = [];
 let isExploding = false;
 
 function triggerHeartExplosion() {
-  isExploding = true;
-  explosionParticles = [];
-  const centerX = sW / 2;
-  const centerY = sH / 2;
-  
-  // Spawn 150 glowing particles that shoot outward
+  isExploding = true; explosionParticles = [];
+  const centerX = sW / 2, centerY = sH / 2;
   for (let i = 0; i < 150; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = Math.random() * 8 + 2;
+    const angle = Math.random() * Math.PI * 2, speed = Math.random() * 8 + 2;
     explosionParticles.push({
-      x: centerX,
-      y: centerY,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      life: 1, // 1 to 0
-      decay: Math.random() * 0.02 + 0.01,
-      color: Math.random() > 0.5 ? '#f0cd86' : '#d9cfe8',
-      size: Math.random() * 3 + 1
+      x: centerX, y: centerY, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+      life: 1, decay: Math.random() * 0.02 + 0.01, color: Math.random() > 0.5 ? '#f0cd86' : '#d9cfe8', size: Math.random() * 3 + 1
     });
   }
 }
 
-// Modify your drawStars() function to render the explosion.
-// Find the very end of drawStars(), right above `st++; requestAnimationFrame(drawStars);`
-// and paste this block:
+const secretText = [
+  "Sometimes it feels like I’m pouring my whole heart into us while you’re just stopping by for a quick second. I don't think you're doing it to be mean, and maybe you just move at a different pace than I do, or maybe my feelings are just heavier right now. Still, it feels like I’m building a whole world for us by myself, waiting for you to actually step inside instead of just peeking through the door.",
+  "What messes with my head the most is how unpredictable everything feels. When you hit me with something sweet like, it makes my whole day, and I feel so close to you. But then it gets followed by hours of silence, one word replies, or my call requests getting ignored, and I'm just left sitting there waiting. It turns our chats into a guessing game where the good moments hit so hard only because they're rare, keeping me hooked on what we could be instead of how things actually are.",
+  "It’s like getting tiny breadcrumbs of your attention right when I’m about to pull back, a random \"yooo\" or a quick check in that gives me just enough warmth to stay, without ever really letting me in. It leaves me stuck in this weird middle ground where I don't feel rejected at all to walk away, yet I never feel secure enough to just relax and be happy.",
+  "To be completely honest with you, it hurts in a quiet, confusing way. It makes me second-guess myself and wonder if wanting a normal voice call or a real, flowing conversation is asking for too much. I hate feeling like I’m getting emotional whiplash; feeling super close to you one minute and completely alone in the same chat the next. I’m not embarrassed about liking you this much, because caring deeply is just who I am, it just stings when the effort feels so one-sided.",
+  "I’m not writing this to start an argument or make you feel bad, I just needed to be real with you about where my head is at. I still care about you a lot, and I’m not going to change, turn cold or bitter, I just feel like i should take a step back and match your pace so I don't keep hurting myself. I want to protect my peace and save my deepest energy for when things actually feel mutual between us."
+];
 
-  if (isExploding && explosionParticles.length > 0) {
-    for (let i = explosionParticles.length - 1; i >= 0; i--) {
-      const p = explosionParticles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vx *= 0.96; // friction
-      p.vy *= 0.96;
-      p.life -= p.decay;
-      
-      if (p.life <= 0) {
-        explosionParticles.splice(i, 1);
-        continue;
-      }
-      
-      stx.globalAlpha = p.life;
-      stx.fillStyle = p.color;
-      stx.shadowColor = p.color;
-      stx.shadowBlur = 10;
-      stx.beginPath();
-      stx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      stx.fill();
-    }
-    stx.globalAlpha = 1;
-    stx.shadowBlur = 0;
+let secretTypingTimeout = null;
+
+// --- CINEMATIC 3D SCATTER & ASSEMBLE ---
+document.getElementById('writeBackBtn').addEventListener('click', () => {
+  const overlay = document.getElementById('secretLetterOverlay');
+  const beforeGo = document.getElementById('beforeGoBox');
+  const container = document.getElementById('flyingLettersContainer');
+  const targetText = document.getElementById('targetText');
+  const aLot = document.getElementById('aLot');
+  const telegramBtn = document.getElementById('finalTelegramBtn');
+
+  // 1. Show overlay & animate box
+  overlay.classList.add('show');
+  setTimeout(() => beforeGo.classList.add('show'), 300);
+
+  startSecretGalaxy();
+
+  const text = "I ADORE YOU";
+  
+  // 2. Setup the target 
+  targetText.innerHTML = ''; 
+  const targetRects = [];
+  
+  for (let i = 0; i < text.length; i++) {
+    const span = document.createElement('span');
+    span.textContent = text[i];
+    span.style.display = 'inline-block';
+    if (text[i] === ' ') span.style.width = '4vw'; 
+    targetText.appendChild(span);
   }
+
+  void targetText.offsetWidth; // Force layout
+  
+  const spans = targetText.querySelectorAll('span');
+  spans.forEach(span => {
+    targetRects.push(span.getBoundingClientRect());
+  });
+
+  // 3. Create the chaotic flying letters
+  container.innerHTML = '';
+  const flyingLetters = [];
+
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === ' ') continue;
+    
+    const span = document.createElement('span');
+    span.textContent = text[i];
+    span.className = 'flying-letter';
+    
+    // Random start position
+    const startX = window.innerWidth / 2 + (Math.random() - 0.5) * window.innerWidth * 0.8;
+    const startY = window.innerHeight / 2 + (Math.random() - 0.5) * window.innerHeight * 0.8;
+    
+    span.style.left = startX + 'px';
+    span.style.top = startY + 'px';
+    
+    // Random chaos path
+    const animType = Math.floor(Math.random() * 3) + 1;
+    const duration = 1.5 + Math.random() * 1.5;
+    span.style.animation = `snakeMove${animType} ${duration}s infinite linear`;
+    
+    container.appendChild(span);
+    flyingLetters.push({ el: span, targetRect: targetRects[i] });
+    
+    setTimeout(() => chime(200 + Math.random() * 400, 0.2, 0.01), i * 50);
+  }
+
+  // 4. Wait 3.5s for the chaos, then SNAP to layout
+  setTimeout(() => {
+    chime(523, 1.5, 0.05);
+    setTimeout(() => chime(659, 1.5, 0.05), 150);
+    setTimeout(() => chime(784, 1.5, 0.06), 300);
+    setTimeout(() => chime(1047, 2.0, 0.06), 450);
+
+    flyingLetters.forEach(item => {
+      item.el.style.animation = 'none';
+      item.el.style.transition = 'all 1.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      
+      // Snap EXACTLY to the hidden target
+      item.el.style.left = item.targetRect.left + 'px';
+      item.el.style.top = item.targetRect.top + 'px';
+      item.el.style.transform = 'scale(1) rotate(0deg)'; 
+    });
+
+    // 5. Reveal "a lot" and buttons after letters land
+    setTimeout(() => {
+      aLot.style.opacity = '1';
+      aLot.style.transform = 'translateY(0)';
+      
+      setTimeout(() => {
+        telegramBtn.style.transition = 'opacity 1.5s ease';
+        telegramBtn.style.opacity = '1';
+        telegramBtn.style.pointerEvents = 'auto';
+      }, 1000);
+      
+    }, 1500);
+
+  }, 3500); 
+});
+
+// --- THE SWIRLING DARK PINK/PURPLE GALAXY ---
+let galaxyRAF = null;
+function startSecretGalaxy() {
+  const canvas = document.getElementById('secretBgCanvas');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+  
+  const particles = [];
+  for(let i=0; i<150; i++) {
+    particles.push({
+      x: Math.random()*w, y: Math.random()*h,
+      r: Math.random()*2.5 + 0.5,
+      vx: (Math.random()-0.5)*1.5, vy: (Math.random()-0.5)*1.5,
+      // Deep purples (280), magentas (320), and roses (340)
+      hue: Math.random() > 0.6 ? 280 : (Math.random() > 0.3 ? 320 : 340), 
+      alpha: Math.random() * 0.5 + 0.1
+    });
+  }
+  
+  function render() {
+    // Deep purple/black trail for the glittery effect
+    ctx.fillStyle = 'rgba(16, 6, 15, 0.15)'; 
+    ctx.fillRect(0,0,w,h);
+    
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < 0) p.x = w; if(p.x > w) p.x = 0;
+      if(p.y < 0) p.y = h; if(p.y > h) p.y = 0;
+      
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `hsla(${p.hue}, 90%, 70%, ${p.alpha})`;
+      ctx.shadowColor = `hsla(${p.hue}, 90%, 70%, 0.8)`;
+      ctx.shadowBlur = 15;
+      ctx.fill();
+    });
+    galaxyRAF = requestAnimationFrame(render);
+  }
+  render();
+}
+
+// --- THE SWIRLING GALAXY BACKGROUND ---
+function startSecretGalaxy() {
+  const canvas = document.getElementById('secretBgCanvas');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+  
+  const particles = [];
+  for(let i=0; i<120; i++) {
+    particles.push({
+      x: Math.random()*w, y: Math.random()*h,
+      r: Math.random()*2.5 + 0.5,
+      vx: (Math.random()-0.5)*1.5, vy: (Math.random()-0.5)*1.5,
+      hue: Math.random() > 0.5 ? 340 : 40, // Rose and Gold
+      alpha: Math.random() * 0.5 + 0.1
+    });
+  }
+  
+  function render() {
+    // Trailing effect for the galaxy swirl
+    ctx.fillStyle = 'rgba(10, 4, 8, 0.15)'; 
+    ctx.fillRect(0,0,w,h);
+    
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < 0) p.x = w; if(p.x > w) p.x = 0;
+      if(p.y < 0) p.y = h; if(p.y > h) p.y = 0;
+      
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `hsla(${p.hue}, 80%, 70%, ${p.alpha})`;
+      ctx.shadowColor = `hsla(${p.hue}, 80%, 70%, 0.8)`;
+      ctx.shadowBlur = 15;
+      ctx.fill();
+    });
+    galaxyRAF = requestAnimationFrame(render);
+  }
+  render();
+}
+
+function spawnCrimsonGlitter(x, y) {
+  const el = document.createElement('div');
+  el.className = 'confetti'; 
+  el.style.left = x + 'px'; el.style.top = y + 'px';
+  const colors = ['#ff0033', '#d4002a', '#ff4d6d', '#ffffff'];
+  el.style.background = colors[Math.floor(Math.random() * colors.length)];
+  el.style.borderRadius = '50%'; el.style.boxShadow = `0 0 12px 2px ${el.style.background}`;
+  document.body.appendChild(el);
+  let life = 0; const maxLife = 40, vx = (Math.random() - 0.5) * 2, vy = (Math.random() * 2) + 0.5;
+  let curX = 0, curY = 0;
+  function step() {
+    life++; curX += vx; curY += vy;
+    el.style.transform = `translate(${curX}px, ${curY}px) scale(${1 - life/maxLife})`;
+    el.style.opacity = String(1 - (life / maxLife));
+    if (life < maxLife) requestAnimationFrame(step); else el.remove();
+  }
+  requestAnimationFrame(step);
+}
+
+// --- LIVE TIMEZONE CLOCK ---
+function updateTimeZones() {
+  const options = { hour: '2-digit', minute: '2-digit', hour12: false };
+  
+  // Get the actual times for both locations
+  const lagosTime = new Intl.DateTimeFormat('en-GB', { ...options, timeZone: 'Africa/Lagos' }).format(new Date());
+  const indonesiaTime = new Intl.DateTimeFormat('en-GB', { ...options, timeZone: 'Asia/Jakarta' }).format(new Date());
+
+  const elLagos = document.getElementById('time-lagos');
+  const elIndonesia = document.getElementById('time-indonesia');
+
+  if (elLagos && elIndonesia) {
+    elLagos.textContent = lagosTime;
+    elIndonesia.textContent = indonesiaTime;
+  }
+}
+
+// Run it immediately, then update every second
+updateTimeZones();
+setInterval(updateTimeZones, 1000);
+
+// --- THE 20-SECOND WHISPERS ---
+const whispers = [
+  "I'm getting really fond of you 🥹",
+  "I'm really glad I met you.",
+  "Thinking about your voice right now.",
+  "I hope you know how special you are.",
+  "I wish I could be there to see you smile today.",
+  "You make my ordinary days a lot better.",
+  "I'm so proud of the person you're becoming.",
+  "Honestly, you're just really easy to like.",
+  "I hope this year is as beautiful as you are.",
+  "Just checking in. Hope you're smiling.",
+  "I'd cross the ocean just to hear you laugh in person.",
+  "You've been on my mind all day.",
+  "I love the way your brain works.",
+  "You are genuinely one of a kind.",
+  "I'm saving my deepest energy for you.",
+  "I can't wait until the day we finally meet.",
+  "I'm here. Always.",
+  "You deserve the whole world, Helena.",
+  "Every time you message me, my day gets better.",
+  "I'm not going anywhere. 🥹"
+];
+
+let whisperIndex = 0;
+const whisperEl = document.getElementById('whisperText');
+
+function cycleWhispers() {
+  if (!whisperEl) return;
+
+  // 1. Apply the fade-out blur class
+  whisperEl.classList.add('fading');
+
+  // 2. Wait for the fade out to finish (1.5 seconds), then change text
+  setTimeout(() => {
+    whisperIndex = (whisperIndex + 1) % whispers.length;
+    whisperEl.textContent = whispers[whisperIndex];
+    
+    // 3. Remove the fade-out class to bring the new text in
+    whisperEl.classList.remove('fading');
+  }, 1500);
+}
+
+// Start the loop (20,000 milliseconds = 20 seconds)
+setInterval(cycleWhispers, 20000);
 })();
 </script>
+
 <script>
 (function(){
 'use strict';
-
-/* =========================================================
-   HAPPY BIRTHDAY — synthesized trumpet + piano
-   Auto-plays on Enter, ducks when a playlist track plays,
-   resumes when the track pauses.
-   ========================================================= */
-
-let hbCtx = null;
-let hbMaster = null;
-let hbPlaying = false;
-let hbScheduled = [];
-let hbStartTime = 0;
-let hbLoopTimer = null;
-let hbDucked = false;
+let hbCtx = null, hbMaster = null, hbPlaying = false, hbScheduled = [], hbStartTime = 0, hbLoopTimer = null, hbDucked = false;
 
 function hbEnsureCtx(){
   if (!hbCtx){
@@ -2379,144 +3060,57 @@ function hbEnsureCtx(){
   return hbCtx;
 }
 
-/* Warm trumpet voice */
 function hbTrumpet(ctx, dest, freq, when, dur, vel){
   const now = when;
-  const o1 = ctx.createOscillator();  // warm fundamental
-  const o2 = ctx.createOscillator();  // gentle detune
-  const o3 = ctx.createOscillator();  // sub warmth
-  const g1 = ctx.createGain();
-  const g2 = ctx.createGain();
-  const g3 = ctx.createGain();
-  const master = ctx.createGain();
-  const filter = ctx.createBiquadFilter();
-  const filter2 = ctx.createBiquadFilter();
+  const o1 = ctx.createOscillator(), o2 = ctx.createOscillator(), o3 = ctx.createOscillator();
+  const g1 = ctx.createGain(), g2 = ctx.createGain(), g3 = ctx.createGain();
+  const master = ctx.createGain(), filter = ctx.createBiquadFilter(), filter2 = ctx.createBiquadFilter();
 
-  // TRIANGLE instead of SAWTOOTH — much softer, warmer
   o1.type = 'triangle'; o1.frequency.value = freq;
   o2.type = 'sine';     o2.frequency.value = freq * 1.003;
   o3.type = 'sine';     o3.frequency.value = freq / 2;
 
-  // Two-stage lowpass — gentle rolloff, no sharp bite
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(800, now);
+  filter.type = 'lowpass'; filter.frequency.setValueAtTime(800, now);
   filter.frequency.linearRampToValueAtTime(1400, now + 0.10);
-  filter.frequency.linearRampToValueAtTime(1000, now + dur);
-  filter.Q.value = 0.8;
-
-  filter2.type = 'lowpass';
-  filter2.frequency.value = 2400;
-  filter2.Q.value = 0.5;
+  filter.frequency.linearRampToValueAtTime(1000, now + dur); filter.Q.value = 0.8;
+  filter2.type = 'lowpass'; filter2.frequency.value = 2400; filter2.Q.value = 0.5;
 
   const peak = vel || 0.12;
-  g1.gain.setValueAtTime(0.0001, now);
-  g1.gain.linearRampToValueAtTime(peak, now + 0.06);
-  g1.gain.setValueAtTime(peak, now + dur * 0.7);
-  g1.gain.exponentialRampToValueAtTime(0.0001, now + dur + 0.25);
+  g1.gain.setValueAtTime(0.0001, now); g1.gain.linearRampToValueAtTime(peak, now + 0.06);
+  g1.gain.setValueAtTime(peak, now + dur * 0.7); g1.gain.exponentialRampToValueAtTime(0.0001, now + dur + 0.25);
+  g2.gain.setValueAtTime(0.0001, now); g2.gain.linearRampToValueAtTime(peak * 0.4, now + 0.06); g2.gain.exponentialRampToValueAtTime(0.0001, now + dur + 0.25);
+  g3.gain.setValueAtTime(0.0001, now); g3.gain.linearRampToValueAtTime(peak * 0.5, now + 0.08); g3.gain.exponentialRampToValueAtTime(0.0001, now + dur + 0.25);
 
-  g2.gain.setValueAtTime(0.0001, now);
-  g2.gain.linearRampToValueAtTime(peak * 0.4, now + 0.06);
-  g2.gain.exponentialRampToValueAtTime(0.0001, now + dur + 0.25);
-
-  g3.gain.setValueAtTime(0.0001, now);
-  g3.gain.linearRampToValueAtTime(peak * 0.5, now + 0.08);
-  g3.gain.exponentialRampToValueAtTime(0.0001, now + dur + 0.25);
-
-  master.gain.value = 1;
-
-  o1.connect(g1); g1.connect(filter);
-  o2.connect(g2); g2.connect(filter);
-  o3.connect(g3); g3.connect(filter);
-  filter.connect(filter2);
-  filter2.connect(master);
-  master.connect(dest);
+  o1.connect(g1); g1.connect(filter); o2.connect(g2); g2.connect(filter); o3.connect(g3); g3.connect(filter);
+  filter.connect(filter2); filter2.connect(master); master.connect(dest);
 
   o1.start(now); o2.start(now); o3.start(now);
-  o1.stop(now + dur + 0.35);
-  o2.stop(now + dur + 0.35);
-  o3.stop(now + dur + 0.35);
+  o1.stop(now + dur + 0.35); o2.stop(now + dur + 0.35); o3.stop(now + dur + 0.35);
 }
 
-/* Soft piano voice (bell-like, for the melody harmony) */
 function hbPiano(ctx, dest, freq, when, dur, vel){
-  const o1 = ctx.createOscillator();
-  const o2 = ctx.createOscillator();
-  const g = ctx.createGain();
-  const g2 = ctx.createGain();
-  const master = ctx.createGain();
-  const filter = ctx.createBiquadFilter();
-
-  o1.type = 'sine';     o1.frequency.value = freq;
-  o2.type = 'sine';     o2.frequency.value = freq * 2;  // sine instead of triangle — softer
-
-  filter.type = 'lowpass';
-  filter.frequency.value = 1800;  // was 3000 — darker, warmer
-  filter.Q.value = 0.5;
-
+  const o1 = ctx.createOscillator(), o2 = ctx.createOscillator();
+  const g = ctx.createGain(), g2 = ctx.createGain(), master = ctx.createGain(), filter = ctx.createBiquadFilter();
+  o1.type = 'sine'; o1.frequency.value = freq; o2.type = 'sine'; o2.frequency.value = freq * 2;
+  filter.type = 'lowpass'; filter.frequency.value = 1800; filter.Q.value = 0.5;
   const peak = vel || 0.06;
-  g.gain.setValueAtTime(0.0001, when);
-  g.gain.linearRampToValueAtTime(peak, when + 0.02);
-  g.gain.exponentialRampToValueAtTime(0.0001, when + dur * 1.6);
-
-  g2.gain.setValueAtTime(0.0001, when);
-  g2.gain.linearRampToValueAtTime(peak * 0.2, when + 0.02);
-  g2.gain.exponentialRampToValueAtTime(0.0001, when + dur * 0.9);
-
-  master.gain.value = 1;
-  o1.connect(g); g.connect(filter);
-  o2.connect(g2); g2.connect(filter);
-  filter.connect(master);
-  master.connect(dest);
-
-  o1.start(when); o2.start(when);
-  o1.stop(when + dur * 1.7);
-  o2.stop(when + dur * 1.1);
+  g.gain.setValueAtTime(0.0001, when); g.gain.linearRampToValueAtTime(peak, when + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, when + dur * 1.6);
+  g2.gain.setValueAtTime(0.0001, when); g2.gain.linearRampToValueAtTime(peak * 0.2, when + 0.02); g2.gain.exponentialRampToValueAtTime(0.0001, when + dur * 0.9);
+  o1.connect(g); g.connect(filter); o2.connect(g2); g2.connect(filter); filter.connect(master); master.connect(dest);
+  o1.start(when); o2.start(when); o1.stop(when + dur * 1.7); o2.stop(when + dur * 1.1);
 }
 
-/* The Happy Birthday melody (key of C major, one octave + a bit) */
-/* Notes: G4 G4 A4 G4 C5 B4 | G4 G4 A4 G4 D5 C5 | G4 G4 G5 E5 C5 B4 A4 | F5 F5 E5 C5 D5 C5 */
-const NOTE = {
-  G3: 196.00, A3: 220.00,
-  C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88,
-  C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.00
-};
+const NOTE = { G3: 196.00, A3: 220.00, C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88, C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.00 };
 
-/* Melody as [freq, startBeat, durationBeats] — beat = 0.42s */
 const MELODY = [
-  [NOTE.G4, 0.0,  0.5],
-  [NOTE.G4, 0.5,  0.5],
-  [NOTE.A4, 1.0,  0.9],
-  [NOTE.G4, 2.0,  0.9],
-  [NOTE.C5, 3.0,  0.9],
-  [NOTE.B4, 4.0,  2.6],
-
-  [NOTE.G4, 5.0,  0.5],
-  [NOTE.G4, 5.5,  0.5],
-  [NOTE.A4, 6.0,  0.9],
-  [NOTE.G4, 7.0,  0.9],
-  [NOTE.D5, 8.0,  0.9],
-  [NOTE.C5, 9.0,  2.6],
-
-  [NOTE.G4, 10.0, 0.5],
-  [NOTE.G4, 10.5, 0.5],
-  [NOTE.G5, 11.0, 0.9],
-  [NOTE.E5, 12.0, 0.9],
-  [NOTE.C5, 13.0, 0.9],
-  [NOTE.B4, 14.0, 0.9],
-  [NOTE.A4, 15.0, 1.6],
-
-  [NOTE.F5, 16.0, 0.5],
-  [NOTE.F5, 16.5, 0.5],
-  [NOTE.E5, 17.0, 0.9],
-  [NOTE.C5, 18.0, 0.9],
-  [NOTE.D5, 19.0, 0.9],
-  [NOTE.C5, 20.0, 2.4]
+  [NOTE.G4, 0.0, 0.5], [NOTE.G4, 0.5, 0.5], [NOTE.A4, 1.0, 0.9], [NOTE.G4, 2.0, 0.9], [NOTE.C5, 3.0, 0.9], [NOTE.B4, 4.0, 2.6],
+  [NOTE.G4, 5.0, 0.5], [NOTE.G4, 5.5, 0.5], [NOTE.A4, 6.0, 0.9], [NOTE.G4, 7.0, 0.9], [NOTE.D5, 8.0, 0.9], [NOTE.C5, 9.0, 2.6],
+  [NOTE.G4, 10.0, 0.5], [NOTE.G4, 10.5, 0.5], [NOTE.G5, 11.0, 0.9], [NOTE.E5, 12.0, 0.9], [NOTE.C5, 13.0, 0.9], [NOTE.B4, 14.0, 0.9], [NOTE.A4, 15.0, 1.6],
+  [NOTE.F5, 16.0, 0.5], [NOTE.F5, 16.5, 0.5], [NOTE.E5, 17.0, 0.9], [NOTE.C5, 18.0, 0.9], [NOTE.D5, 19.0, 0.9], [NOTE.C5, 20.0, 2.4]
 ];
 
-/* Harmony — soft piano chords under each phrase */
 const CHORDS = [
-  { at: 0.0,  notes: [NOTE.C4, NOTE.E4, NOTE.G4], dur: 2.4 },
-  { at: 2.0,  notes: [NOTE.G4 - 98, NOTE.B4 - 100, NOTE.D4], dur: 2.4 }, // G major (approx)
+  { at: 0.0,  notes: [NOTE.C4, NOTE.E4, NOTE.G4], dur: 2.4 },   { at: 2.0,  notes: [NOTE.G4 - 98, NOTE.B4 - 100, NOTE.D4], dur: 2.4 },
   { at: 5.0,  notes: [NOTE.C4, NOTE.E4, NOTE.G4], dur: 2.4 },
   { at: 7.0,  notes: [NOTE.G4 - 98, NOTE.B4 - 100, NOTE.D4], dur: 2.4 },
   { at: 10.0, notes: [NOTE.C4, NOTE.E4, NOTE.G4], dur: 2.4 },
@@ -2525,12 +3119,10 @@ const CHORDS = [
   { at: 16.0, notes: [NOTE.C4, NOTE.E4, NOTE.G4], dur: 4.0 }
 ];
 
-const BEAT = 0.83;      // seconds per beat
+const BEAT = 0.83;
 const VERSE_BEATS = 24.4;
-const LOOP_END = VERSE_BEATS;  // kept for compatibility, only verse used once now
-/* Gentle piano-only interlude — plays between verses */
-/* Generative warm ambient bed — never repeats a recognizable melody,
-   cycles through 4 chord shapes, each 8 beats long, with varied arpeggios. */
+const LOOP_END = VERSE_BEATS;
+
 const AMBIENT_CHORDS = [
   { notes: [NOTE.C4, NOTE.E4, NOTE.G4],  arp: [NOTE.G4, NOTE.E5, NOTE.C5, NOTE.G5] },
   { notes: [NOTE.A3, NOTE.C4, NOTE.E4],  arp: [NOTE.E4, NOTE.C5, NOTE.A4, NOTE.E5] },
@@ -2545,22 +3137,17 @@ function hbAmbientSection(startAt){
   const chord = AMBIENT_CHORDS[ambientChordIndex % AMBIENT_CHORDS.length];
   ambientChordIndex++;
 
-  // Sustained pad — full 8 beats, no fade before end
   chord.notes.forEach(function(freq){
     hbPiano(ctx, master, freq, startAt, 8.0 * BEAT, 0.045);
-    // sub octave for depth
     hbPiano(ctx, master, freq / 2, startAt, 8.0 * BEAT, 0.025);
   });
 
-  // Slow arpeggio — 4 notes spread across 8 beats, always landing softly
-  const spacing = 2.0; // beats between arp notes
+  const spacing = 2.0;
   chord.arp.forEach(function(freq, i){
     hbPiano(ctx, master, freq, startAt + i * spacing * BEAT, 3.0 * BEAT, 0.065);
-    // octave up for shimmer
     hbPiano(ctx, master, freq * 2, startAt + i * spacing * BEAT + 0.05, 2.0 * BEAT, 0.02);
   });
 
-  // A tiny high sparkle halfway through, randomised pitch, for life
   const sparkleOptions = [NOTE.E5, NOTE.G5, NOTE.A5, NOTE.C5];
   const sparkle = sparkleOptions[Math.floor(Math.random() * sparkleOptions.length)];
   hbPiano(ctx, master, sparkle, startAt + 4.0 * BEAT, 2.5 * BEAT, 0.03);
@@ -2571,22 +3158,19 @@ const AMBIENT_SECTION_BEATS = 8.0;
 function hbScheduleVerse(startAt){
   const ctx = hbCtx;
   const master = hbMaster;
-  // trumpet melody
   MELODY.forEach(function(n){
     const [freq, startBeat, durBeats] = n;
     const when = startAt + startBeat * BEAT;
     const dur = durBeats * BEAT;
     hbTrumpet(ctx, master, freq, when, dur, 0.13);
-    // add a soft octave-down trumpet for warmt
   });
-  // piano chords
-CHORDS.forEach(function(c){
-  const when = startAt + c.at * BEAT;
-  const dur = c.dur * BEAT;
-  c.notes.forEach(function(freq, i){
-    hbPiano(ctx, master, freq, when + i * 0.01, dur, 0.055);
+  CHORDS.forEach(function(c){
+    const when = startAt + c.at * BEAT;
+    const dur = c.dur * BEAT;
+    c.notes.forEach(function(freq, i){
+      hbPiano(ctx, master, freq, when + i * 0.01, dur, 0.055);
+    });
   });
-});
 }
 
 function hbStart(){
@@ -2609,22 +3193,18 @@ function hbStart(){
   hbPlaying = true;
   hbStartTime = ctx.currentTime + 0.1;
 
-  // Play the birthday verse exactly ONCE
   hbScheduleVerse(hbStartTime);
 
-  // The ambient bed starts right when the verse ends
   let nextSectionStart = hbStartTime + VERSE_BEATS * BEAT;
   let inAmbient = false;
 
-  // Lookahead scheduler — keeps the ambient bed fed with no gaps forever
   function scheduleLoop(){
     if (!hbPlaying) return;
     const now = hbCtx.currentTime;
-    const lookahead = 3.0; // seconds — generous, so scheduling never falls behind
+    const lookahead = 3.0;
 
     while (nextSectionStart - now < lookahead){
       if (!inAmbient){
-        // first ambient section after the verse
         inAmbient = true;
       }
       hbAmbientSection(nextSectionStart);
@@ -2644,7 +3224,6 @@ function hbStop(){
   }
 }
 
-/* Ducking — pauses the birthday song when a track plays */
 function hbDuck(){
   if (!hbMaster || hbDucked) return;
   hbDucked = true;
@@ -2654,6 +3233,7 @@ function hbDuck(){
     hbMaster.gain.linearRampToValueAtTime(0.0, hbCtx.currentTime + 0.5);
   } catch(e){}
 }
+
 function hbUnduck(){
   if (!hbMaster || !hbDucked) return;
   hbDucked = false;
@@ -2664,23 +3244,18 @@ function hbUnduck(){
   } catch(e){}
 }
 
-/* Start the birthday song when the curtain Enter button is clicked.
-   Because the enter button also unlocks AudioContext (it's a click),
-   this is the natural moment. */
 document.addEventListener('DOMContentLoaded', function(){
   const enterBtn = document.getElementById('enterBtn');
   if (enterBtn){
   enterBtn.addEventListener('click', function(){
   const ctx = hbEnsureCtx();
   if (ctx && ctx.state === 'suspended') {
-    ctx.resume();   // resume INSIDE the gesture
+    ctx.resume();
   }
   setTimeout(hbStart, 1200);
 });
   }
 
-  // Wire into the playlist so playing a track ducks the birthday song,
-  // and pausing/ending a track unducks it.
   const playlist = document.getElementById('playlist');
   if (playlist){
     const observer = new MutationObserver(function(){
@@ -2694,7 +3269,6 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     });
     observer.observe(playlist, { childList: true, subtree: true });
-    // also wire any already-present audios
     playlist.querySelectorAll('audio').forEach(function(audio){
       audio.dataset.hbWired = '1';
       audio.addEventListener('play', hbDuck);
@@ -2704,9 +3278,8 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 });
 
-/* Expose for debugging (optional) */
 window.__hb = { start: hbStart, stop: hbStop, duck: hbDuck, unduck: hbUnduck };
-// MAGNETIC BUTTONS
+
 document.querySelectorAll('.btn, .enter-btn, .track-play').forEach(btn => {
   btn.addEventListener('mousemove', e => {
     const rect = btn.getBoundingClientRect();
@@ -2719,7 +3292,6 @@ document.querySelectorAll('.btn, .enter-btn, .track-play').forEach(btn => {
   });
 });
 
-// 3D TILT CARDS
 document.querySelectorAll('.reason').forEach(card => {
   card.addEventListener('mousemove', e => {
     const rect = card.getBoundingClientRect();
@@ -2735,6 +3307,7 @@ document.querySelectorAll('.reason').forEach(card => {
     card.style.transform = '';
   });
 });
+
 })();
 </script>
 </body>
