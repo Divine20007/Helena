@@ -1118,6 +1118,466 @@ main.show{opacity:1}
     font-size: clamp(24px, 8vw, 40px);
   }
 }
+
+/* --- WHISPER TAKEOVER --- */
+.whisper-takeover {
+  position: fixed;
+  inset: 0;
+  z-index: 8000; /* Above website, below the final letter (9999) */
+  background: rgba(10, 4, 8, 0.9); /* Darkens everything behind it */
+  backdrop-filter: blur(20px); /* Blurs the website completely */
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.whisper-takeover.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#whisperFireworks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.whisper-text-wrapper {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 20px;
+  transform: scale(0.9);
+  transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.whisper-takeover.show .whisper-text-wrapper {
+  transform: scale(1);
+}
+
+#whisperMessage {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 6vw, 64px);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold-bright);
+  line-height: 1.3;
+  text-shadow: 
+    0 0 30px rgba(240, 205, 134, 0.8), 
+    0 0 60px rgba(232, 180, 184, 0.6);
+}
+
+/* --- SURREAL LIQUID VAULT --- */
+.voice-lock-box {
+  position: relative;
+  max-width: 600px;
+  margin: 80px auto;
+  padding: 70px 40px;
+  text-align: center;
+  background: rgba(16, 8, 15, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  z-index: 10;
+  
+  /* The Water Wobble Effect */
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  box-shadow: 
+    inset 0 0 60px rgba(255, 255, 255, 0.05),
+    0 0 40px rgba(255, 0, 128, 0.3),  /* Pink glow */
+    0 0 80px rgba(138, 43, 226, 0.3); /* Purple glow */
+  
+  animation: 
+    liquidWobble 8s ease-in-out infinite alternate,
+    neonPulse 4s infinite alternate;
+}
+
+/* The morphing water shape */
+@keyframes liquidWobble {
+  0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(0deg) scale(1); }
+  33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: rotate(1deg) scale(1.02); }
+  66% { border-radius: 30% 70% 40% 60% / 60% 40% 30% 60%; transform: rotate(-1deg) scale(0.98); }
+  100% { border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%; transform: rotate(0deg) scale(1); }
+}
+
+/* The neon outer glow breathing */
+@keyframes neonPulse {
+  0% { box-shadow: inset 0 0 60px rgba(255,255,255,0.05), 0 0 40px rgba(255,0,128,0.2), 0 0 80px rgba(138,43,226,0.2); }
+  100% { box-shadow: inset 0 0 80px rgba(255,255,255,0.1), 0 0 60px rgba(255,0,128,0.5), 0 0 120px rgba(138,43,226,0.5); }
+}
+
+/* The floating orbs inside the water */
+.liquid-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(20px);
+  z-index: 1;
+  animation: floatOrb 6s infinite ease-in-out alternate;
+}
+.orb1 { width: 100px; height: 100px; background: #ff0080; top: 10%; left: 10%; animation-delay: 0s; }
+.orb2 { width: 150px; height: 150px; background: #8a2be2; bottom: 10%; right: 10%; animation-delay: -2s; }
+.orb3 { width: 80px; height: 80px; background: #00ffff; top: 50%; left: 50%; animation-delay: -4s; }
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+  100% { transform: translate(30px, -30px) scale(1.2); opacity: 0.6; }
+}
+
+.vault-content {
+  position: relative;
+  z-index: 5;
+}
+
+.vault-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.5em;
+  color: #00ffff; /* Neon cyan */
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #00ffff;
+}
+
+/* Colorful, glowing, jiggling title */
+.lock-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(26px, 5vw, 42px);
+  font-weight: 900;
+  margin: 0 0 40px 0;
+  line-height: 1.3;
+  
+  /* Rainbow Gradient Text */
+  background: linear-gradient(to right, #ff0080, #ff8c00, #40e0d0, #8a2be2, #ff0080);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  
+  animation: 
+    gradientShift 3s linear infinite,
+    textJiggle 0.15s infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes textJiggle {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(1px, -1px) rotate(0.5deg); }
+  50% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+  75% { transform: translate(1px, 1px) rotate(0.5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.lock-input-group {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+#nameInput {
+  background: rgba(0,0,0,0.3);
+  border: none;
+  border-bottom: 2px solid #8a2be2;
+  padding: 15px 20px;
+  color: #fff;
+  font-family: 'Caveat', cursive;
+  font-size: clamp(32px, 5vw, 48px);
+  text-align: center;
+  outline: none;
+  width: 80%;
+  max-width: 400px;
+  transition: all 0.4s ease;
+  caret-color: #00ffff;
+  border-radius: 20px 20px 0 0;
+  box-shadow: inset 0 -10px 20px -10px rgba(138, 43, 226, 0.5);
+}
+
+#nameInput::placeholder {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.1em;
+}
+
+#nameInput:focus {
+  border-bottom: 2px solid #00ffff;
+  box-shadow: inset 0 -15px 30px -10px rgba(0, 255, 255, 0.4), 0 0 20px rgba(0, 255, 255, 0.2);
+  background: rgba(0,0,0,0.5);
+}
+
+/* The glowing, floating Unveil button */
+#unlockBtn {
+  background: transparent;
+  border: 2px solid #ff0080;
+  padding: 16px 60px;
+  border-radius: 99px;
+  color: #ff0080;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(255, 0, 128, 0.2), inset 0 0 10px rgba(255, 0, 128, 0.1);
+}
+
+/* Button hover fills with neon pink */
+#unlockBtn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #ff0080;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+
+#unlockBtn:hover {
+  color: #fff;
+  box-shadow: 0 0 40px rgba(255, 0, 128, 0.8), inset 0 0 20px rgba(255, 0, 128, 0.5);
+}
+
+#unlockBtn:hover::before {
+  transform: scaleX(1);
+}
+
+#unlockBtn span {
+  position: relative;
+  z-index: 2;
+}
+
+.lock-error {
+  color: #ff0080;
+  margin-top: 25px;
+  font-size: 16px;
+  min-height: 24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 10px #ff0080;
+}
+
+/* Mobile fixes for the wobbly box */
+@media (max-width: 768px) {
+  .voice-lock-box {
+    padding: 50px 20px;
+    margin: 40px auto;
+    animation: liquidWobble 8s ease-in-out infinite alternate; /* Remove the heavy box-shadow pulse on mobile */
+  }
+}
+
+/* --- THE 3D LOVE ENVELOPE --- */
+.envelope-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px auto;
+  perspective: 1500px; /* Gives the 3D depth */
+}
+
+.envelope {
+  position: relative;
+  width: min(380px, 85vw);
+  aspect-ratio: 1.4 / 1;
+  background: #2a1121;
+  border-radius: 12px;
+  box-shadow: 0 30px 60px -15px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.envelope:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 40px 80px -15px rgba(0,0,0,0.9), 0 0 40px rgba(232, 180, 184, 0.2);
+}
+
+/* Back of the envelope */
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #3a162b, #1a0a15);
+  border-radius: 12px;
+  border: 1px solid rgba(232, 180, 184, 0.1);
+}
+
+/* The letter paper peeking out */
+.envelope-paper {
+  position: absolute;
+  top: 10px; left: 20px; right: 20px; bottom: 10px;
+  background: #f7e8df;
+  border-radius: 6px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 1;
+}
+
+/* The front pocket of the envelope */
+.envelope-front {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #2f1327 0%, #4a1c3a 100%);
+  border-radius: 12px;
+  clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+  z-index: 2;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  box-shadow: inset 0 5px 20px rgba(0,0,0,0.4);
+}
+
+/* The top flap */
+.envelope-flap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 55%;
+  background: linear-gradient(180deg, #3a162b 0%, #2a1121 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1), z-index 0.1s;
+  z-index: 3;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+}
+
+/* The glowing wax seal */
+.envelope-seal {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px; height: 60px;
+  background: radial-gradient(circle at 30% 30%, #ff4d6d, #c9184a);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.8);
+  font-size: 24px;
+  z-index: 4;
+  box-shadow: 
+    0 10px 20px rgba(0,0,0,0.5), 
+    inset 0 -3px 8px rgba(0,0,0,0.3), 
+    inset 0 3px 8px rgba(255,255,255,0.4),
+    0 0 20px rgba(255, 77, 109, 0.5);
+  transition: all 0.5s ease;
+  animation: sealPulse 2s infinite alternate;
+}
+
+@keyframes sealPulse {
+  0% { box-shadow: 0 10px 20px rgba(0,0,0,0.5), inset 0 -3px 8px rgba(0,0,0,0.3), inset 0 3px 8px rgba(255,255,255,0.4), 0 0 10px rgba(255, 77, 109, 0.3); }
+  100% { box-shadow: 0 10px 20px rgba(0,0,0,0.5), inset 0 -3px 8px rgba(0,0,0,0.3), inset 0 3px 8px rgba(255,255,255,0.4), 0 0 30px rgba(255, 77, 109, 0.8); }
+}
+
+.tap-hint {
+  margin-top: 25px;
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  color: var(--rose);
+  opacity: 0.8;
+  animation: hintFade 2s infinite alternate;
+}
+
+@keyframes hintFade {
+  0% { opacity: 0.4; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(-5px); }
+}
+
+/* --- THE OPENING ANIMATION STATES --- */
+.envelope.open .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 0; /* Pushes it behind the paper */
+  box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+}
+
+.envelope.open .envelope-paper {
+  transform: translateY(-60%); /* Slides the paper up */
+  z-index: 5; /* Brings it in front of the pocket */
+}
+
+.envelope.open .envelope-seal {
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+}
+
+.envelope.open {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* --- PRE-ENTRY POPUP --- */
+.intro-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 250; /* Above the curtain */
+  background: rgba(13, 5, 9, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+}
+
+.intro-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.intro-popup-card {
+  background: linear-gradient(160deg, rgba(35, 16, 31, 0.9), rgba(16, 8, 15, 0.95));
+  border: 1px solid rgba(240, 205, 134, 0.3);
+  border-radius: 28px;
+  padding: clamp(30px, 5vw, 50px);
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 40px 100px -20px rgba(0,0,0,0.9);
+  transform: translateY(20px) scale(0.95);
+  transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.intro-popup.show .intro-popup-card {
+  transform: translateY(0) scale(1);
+}
+
+.intro-popup-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 36px);
+  color: var(--gold-bright);
+  font-style: italic;
+  margin: 0 0 20px 0;
+}
+
+.intro-popup-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  font-weight: 300;
+  margin-bottom: 35px;
+}
 </style>
 </head>
 <body class="locked">
@@ -1138,6 +1598,19 @@ main.show{opacity:1}
     <button class="enter-btn" id="enterBtn" type="button">Begin</button>
   </div>
 </section>
+
+<!-- THE PRE-ENTRY POPUP -->
+<div id="introPopup" class="intro-popup">
+  <div class="intro-popup-card">
+    <h2 class="intro-popup-title">Before you step inside...</h2>
+    <p class="intro-popup-text">
+      I put my whole heart into building this for you. I spent almost 9 days working on it non-stop.
+      <br><br>
+      Please take your time going through it all, step by step, all the way to the end. Don't miss a thing. 🥹
+    </p>
+    <button id="finalEnterBtn" class="enter-btn" type="button" style="animation: none; opacity: 1; transform: translateY(0);">Enter</button>
+  </div>
+</div>
 
 <main id="main">
 
@@ -1186,34 +1659,59 @@ main.show{opacity:1}
     </div>
   </section>
 
-  <!-- 3. VOICE -->
-  <section class="scene scene-narrow">
-    <div class="section-head reveal">
-      <div class="eyebrow">And now the thing I've been meaning to say</div>
-      <h2 class="section-title">Your <em>voice</em>.</h2>
+   <!-- 3. VOICE -->
+  <section class="scene scene-narrow" id="voiceSection">
+    
+          <!-- THE SURREAL LIQUID VAULT -->
+    <div id="voiceLock" class="voice-lock-box reveal">
+      <!-- Floating background orbs -->
+      <div class="liquid-orb orb1"></div>
+      <div class="liquid-orb orb2"></div>
+      <div class="liquid-orb orb3"></div>
+      
+      <div class="vault-content">
+        <p class="eyebrow vault-eyebrow">A Secret is kept here</p>
+        <h2 class="lock-title">Only one key:<br>Who made this for you?</h2>
+        
+        <div class="lock-input-group">
+          <input type="text" id="nameInput" placeholder="Whisper it here...{my real name}" autocomplete="off" spellcheck="false">
+        </div>
+        
+        <button id="unlockBtn" type="button">
+          <span>Unveil</span>
+        </button>
+        <p id="lockError" class="lock-error"></p>
+      </div>
     </div>
-    <div class="glass voice-card reveal">
-      <canvas id="waveCanvas"></canvas>
-      <div class="body-text" style="text-align:left">
-        <p>
-          I will not make up a version of you that isn't real. But your voice on calls stays with me in a way I didn't expect. It has a texture to it; warm, unhurried, a little bit <em>musical</em> in a way that isn't trying to be. The first time we spoke, I remember noticing it before anything else. Not in a way I could have explained then. Just: <strong>nobody else sounds like that. I could listen to this voice all day.</strong>
-        </p>
-        <p>
-          And the thing is, it stayed with me. On quiet days. On long days. On days when I didn't realise I was waiting to hear it. There's a specific kind of calm in the way you talk. Like someone who isn't performing. Like someone who is <em>actually there.</em> I don't take that for granted.
-        </p>
-        <p>
-          I think a lot about that n ur laugh. Not the polite one, the real one, the one that catches you off guard and makes you say <strong>"wait, say that again."</strong> The one that makes me stop what I'm doing and sit there for a second, smiling at a screen in a room by myself, a whole ocean away from you.
-        </p>
-        <p>
-          What I mean is simple: I love hearing your voice. I wish we'd talk way more. It's the kind of thing I'd never get tired of, and I don't think I'm exaggerating when I say that.
-        </p>
-        <p>
-          This little wave above isn't your voice, it's mine, imagining yours. Think of it as a portrait, drawn in sound, of the first thing I ever noticed about you.
-        </p>
-        <p>
-          And Helena, I mean this seriously. I hope you never feel like you have to make your voice smaller. It's beautiful exactly as it is.
-        </p>
-        <span class="hand">Some things you don't get used to. Your voice is one of them. — Cee</span>
+    <!-- THE REAL CONTENT (Hidden initially) -->
+    <div id="voiceContent" style="display: none;">
+      <div class="section-head">
+        <div class="eyebrow">And now the thing I've been meaning to say</div>
+        <h2 class="section-title">Your <em>voice</em>.</h2>
+      </div>
+      <div class="glass voice-card">
+        <canvas id="waveCanvas"></canvas>
+        <div class="body-text" style="text-align:left">
+          <p>
+            I will not make up a version of you that isn't real. But your voice on calls stays with me in a way I didn't expect. It has a texture to it; warm, unhurried, a little bit <em>musical</em> in a way that isn't trying to be. The first time we spoke, I remember noticing it before anything else. Not in a way I could have explained then. Just: <strong>nobody else sounds like that. I could listen to this voice all day.</strong>
+          </p>
+          <p>
+            And the thing is, it stayed with me. On quiet days. On long days. On days when I didn't realise I was waiting to hear it. There's a specific kind of calm in the way you talk. Like someone who isn't performing. Like someone who is <em>actually there.</em> I don't take that for granted.
+          </p>
+          <p>
+            I think a lot about that n ur laugh. Not the polite one, the real one, the one that catches you off guard and makes you say <strong>"wait, say that again."</strong> The one that makes me stop what I'm doing and sit there for a second, smiling at a screen in a room by myself, a whole ocean away from you.
+          </p>
+          <p>
+            What I mean is simple: I love hearing your voice. I wish we'd talk way more. It's the kind of thing I'd never get tired of, and I don't think I'm exaggerating when I say that.
+          </p>
+          <p>
+            This little wave above isn't your voice, it's mine, imagining yours. Think of it as a portrait, drawn in sound, of the first thing I ever noticed about you.
+          </p>
+          <p>
+            And Helena, I mean this seriously. I hope you never feel like you have to make your voice smaller. It's beautiful exactly as it is.
+          </p>
+          <span class="hand">Some things you don't get used to. Your voice is one of them. — Cee</span>
+        </div>
       </div>
     </div>
   </section>
@@ -1333,15 +1831,6 @@ main.show{opacity:1}
     </div>
   </section>
 
-  <!-- 6.5 THE WHISPER SECTION -->
-  <section class="scene scene-narrow whisper-section">
-    <div class="whisper-container">
-      <span class="whisper-icon">✦</span>
-      <h2 class="whisper-text" id="whisperText">I'm getting really fond of you 🥹</h2>
-      <span class="whisper-icon">✦</span>
-    </div>
-  </section>
-
   <!-- 7. REASONS -->
   <section class="scene">
     <div class="section-head reveal">
@@ -1364,35 +1853,51 @@ main.show{opacity:1}
     </div>
   </section>
 
-  <!-- 9. LETTER -->
-  <section class="scene scene-narrow">
+    <!-- 9. THE ENVELOPE & LETTER -->
+  <section class="scene scene-narrow" id="letterSection">
     <div class="section-head reveal">
       <div class="eyebrow">♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥</div>
       <h2 class="section-title">A letter for <em>eighteen</em>.</h2>
     </div>
-    <div class="letter reveal">
-      <div class="letter-head">
-        <div class="hand">Dear Helena,</div>
-        <div class="meta">December 1st<br>from Cee</div>
+
+    <!-- THE ENVELOPE -->
+    <div class="envelope-wrapper reveal" id="envelopeWrapper">
+      <div class="envelope" id="theEnvelope">
+        <div class="envelope-back"></div>
+        <div class="envelope-paper"></div>
+        <div class="envelope-front"></div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal">♥</div>
       </div>
-      <div class="letter-body">
-        <p class="type-line">
-          You told me once, half joking, half not; not to forget to wish you today. I want you to know there was never any version of this day where I forgot. I've been thinking about what to give you for days. I can't fly to Indonesia. I can't show up at your door with flowers. So I did the only thing I actually know how to do: I made you <em>something.</em>
-        </p>
-        <p class="type-line">
-          I want to know you, Helena. Not the version of you that shows up for a while and then logs off. I mean the actual you. The one with the private favourite songs and the opinions about things that don't matter and the feelings about things that do. The one who sends me pics of her time to time. The one who's a little different on quiet days. I want to know what makes you laugh until you can't breathe, and what you're scared of, and what you were like at twelve, and what a normal Tuesday feels like in your life. I want to know the small stuff. The small stuff is the whole thing.
-        </p>
-        <p class="type-line">
-          Happy eighteenth, Helena. I hope this year is gentle with you. I hope it gives you the good kind of surprises. I hope you get to be exactly who you are, out loud, without apology. And I hope that I get to be part of the year, in whatever way you'll have me.
-        </p>
-        <p class="type-line">
-          One more thing, and then I'll stop. You sent me a photo of you once. I remember exactly where I was when I opened it. I remember thinking <em>oh damn She's actually beautiful.</em> Not just pretty. Warm. Real. The kind of beautiful that has nothing to do with angles. I didn't say it well then because I didn't want to make it weird. So I'm saying it now, an entire birthday later: you're lovely. I noticed. I remember.
-        </p>
-        <p class="type-line">
-          Here's to eighteen. Here's to you. Here's to finding out what happens next.
-        </p>
+      <p class="tap-hint">Tap the seal to open</p>
+    </div>
+
+    <!-- THE ACTUAL LETTER (Hidden initially) -->
+    <div id="letterContent" style="display: none;">
+      <div class="letter reveal">
+        <div class="letter-head">
+          <div class="hand">Dear Helena,</div>
+          <div class="meta">December 1st<br>from Cee</div>
+        </div>
+        <div class="letter-body">
+          <p class="type-line">
+            You told me once, half joking, half not; not to forget to wish you today. I want you to know there was never any version of this day where I forgot. I've been thinking about what to give you for days. I can't fly to Indonesia. I can't show up at your door with flowers. So I did the only thing I actually know how to do: I made you <em>something.</em>
+          </p>
+          <p class="type-line">
+            I want to know you, Helena. Not the version of you that shows up for a while and then logs off. I mean the actual you. The one with the private favourite songs and the opinions about things that don't matter and the feelings about things that do. The one who sends me pics of her time to time. The one who's a little different on quiet days. I want to know what makes you laugh until you can't breathe, and what you're scared of, and what you were like at twelve, and what a normal Tuesday feels like in your life. I want to know the small stuff. The small stuff is the whole thing.
+          </p>
+          <p class="type-line">
+            Happy eighteenth, Helena. I hope this year is gentle with you. I hope it gives you the good kind of surprises. I hope you get to be exactly who you are, out loud, without apology. And I hope that I get to be part of the year, in whatever way you'll have me.
+          </p>
+          <p class="type-line">
+            One more thing, and then I'll stop. You sent me a photo of you once. I remember exactly where I was when I opened it. I remember thinking <em>oh damn She's actually beautiful.</em> Not just pretty. Warm. Real. The kind of beautiful that has nothing to do with angles. I didn't say it well then because I didn't want to make it weird. So I'm saying it now, an entire birthday later: you're lovely. I noticed. I remember.
+          </p>
+          <p class="type-line">
+            Here's to eighteen. Here's to you. Here's to finding out what happens next.
+          </p>
+        </div>
+        <div class="letter-sign">— Cee</div>
       </div>
-      <div class="letter-sign">— Cee</div>
     </div>
   </section>
 
@@ -1451,6 +1956,13 @@ main.show{opacity:1}
   </div>
 </div>
 
+<!-- WHISPER TAKEOVER OVERLAY -->
+<div id="whisperTakeover" class="whisper-takeover">
+  <canvas id="whisperFireworks"></canvas>
+  <div class="whisper-text-wrapper">
+    <span id="whisperMessage">Message here</span>
+  </div>
+</div>
 <script>
 (function(){
 'use strict';
@@ -1953,36 +2465,43 @@ if ('scrollRestoration' in history) {
 }
 
 enterBtn.addEventListener('click', () => {
-  audio();
+  // 1. Unlock audio context so music works later
+  audio(); 
+  
+  // 2. Play the intro chimes
   chime(523, 0.9, 0.06);
   setTimeout(() => chime(659, 0.8, 0.05), 140);
-  setTimeout(() => chime(784, 1.0, 0.05), 280);
-
-  // 1. Temporarily disable the CSS smooth-scroll
-  document.documentElement.style.scrollBehavior = 'auto';
   
-  // 2. Instantly snap to the very top
-  window.scrollTo(0, 0);
-
-  // 3. Hide the curtain and unlock the page
+  // 3. Hide the main curtain
   curtain.classList.add('gone');
+  
+  // 4. Show the new popup instead of entering the site immediately
+  setTimeout(() => {
+    document.getElementById('introPopup').classList.add('show');
+  }, 500);
+});
+
+// 5. The NEW "Enter" button that actually takes her inside
+document.getElementById('finalEnterBtn').addEventListener('click', () => {
+  // Play the final unlocking chord
+  chime(784, 1.0, 0.05);
+  setTimeout(() => chime(1047, 1.2, 0.05), 150);
+
+  // Hide the popup
+  document.getElementById('introPopup').classList.remove('show');
+  
+  // Enter the site
+  document.documentElement.style.scrollBehavior = 'auto';
+  window.scrollTo(0, 0);
   document.body.classList.remove('locked');
   main.classList.add('show');
 
-  // 4. Let the layout settle for a tiny fraction of a second, THEN resize the canvases
   setTimeout(() => {
     window.dispatchEvent(new Event('resize'));
     revealCheck();
-    sizeWave(); 
-    sizeGlobe(); 
-    sizeStars();
-
-    // 5. Turn smooth scrolling back on for the rest of the website
-    setTimeout(() => {
-      document.documentElement.style.scrollBehavior = 'smooth';
-    }, 100);
-    
-  }, 150); 
+    sizeWave(); sizeGlobe(); sizeStars();
+    setTimeout(() => { document.documentElement.style.scrollBehavior = 'smooth'; }, 100);
+  }, 150);
 });
 
 const revealEls = $$('.reveal');
@@ -2348,6 +2867,7 @@ let lineProgress = 0;
 let activeLine = null;
 let typingTimeout = null;
 let isTyping = false;
+let isWhisperActive = false; // <--- ADD THIS
 
 const STAR_NOTES = [
   {
@@ -2504,6 +3024,11 @@ function showNote(index){
   cursor.className = 'type-cursor';
 
   function typeNextChar() {
+    // PAUSE LOGIC: If a whisper is on screen, wait 500ms and check again
+    if (isWhisperActive) {
+      typingTimeout = setTimeout(typeNextChar, 500);
+      return;
+    }
     if (!currentParaEl) {
       currentParaEl = document.createElement('p');
       bodyEl.appendChild(currentParaEl);
@@ -2729,6 +3254,13 @@ songs.forEach((song, i) => {
   audioEls.push(audio);
   audio.addEventListener('error', () => { fallback.classList.add('show'); });
   btn.addEventListener('click', () => {
+      // STOP THE AUTO LOOP IF SHE CLICKS A SONG MANUALLY
+    if (isLoopPlaying && currentLoopAudio) {
+      currentLoopAudio.pause();
+      isLoopPlaying = false;
+      currentLoopAudio = null;
+      if (window.__hb && typeof window.__hb.unduck === 'function') window.__hb.unduck();
+    }
     const playing = !audio.paused;
     audioEls.forEach(a => { if (a !== audio) a.pause(); });
     document.querySelectorAll('.track-play').forEach(b => { if (b !== btn){ b.classList.remove('playing'); b.textContent = '▶'; } });
@@ -2738,7 +3270,18 @@ songs.forEach((song, i) => {
       btn.classList.add('playing'); btn.textContent = '❚❚';
     }
   });
-  audio.addEventListener('ended', () => { btn.classList.remove('playing'); btn.textContent = '▶'; });
+      audio.addEventListener('ended', () => {
+    btn.classList.remove('playing');
+    btn.textContent = '▶';
+    
+    // IF THIS IS "PINK + WHITE" (index 3), START THE INFINITE LOOP
+    if (i === 3) {
+      setTimeout(() => {
+        startAfterPartyLoop(); // <--- CALL THE NEW LOOP FUNCTION
+        toast('Now playing the afterparty... 🍿');
+      }, 1000); 
+    }
+  });
   fallback.addEventListener('click', () => { window.open(fallback.dataset.link, '_blank', 'noopener'); });
 });
 
@@ -3046,63 +3589,324 @@ function updateTimeZones() {
 updateTimeZones();
 setInterval(updateTimeZones, 1000);
 
-// --- FLOATING SCREEN WHISPERS ---
+/// --- WHISPER TAKEOVER & FIREWORKS ---
 const whispers = [
   "I'm getting really fond of you 🥹",
-  "I'm really glad I met you.",
-  "Thinking about your voice right now.",
-  "I hope you know how special you are.",
-  "I wish I could be there to see you smile today.",
-  "You make my ordinary days a lot better.",
-  "I'm so proud of the person you're becoming.",
-  "Honestly, you're just really easy to like.",
-  "I hope this year is as beautiful as you are.",
-  "Just checking in. Hope you're smiling.",
-  "I'd cross the ocean just to hear you laugh in person.",
-  "You've been on my mind all day.",
-  "I love the way your brain works.",
-  "You are genuinely one of a kind.",
-  "I'm saving my deepest energy for you.",
-  "I can't wait until the day we finally meet.",
-  "I'm here. Always.",
-  "You deserve the whole world, Helena.",
-  "Every time you message me, my day gets better.",
-  "I'm not going anywhere. 🥹"
+  "I'm really glad I met you ❤️",
+  "Thinking about your reaction right now :)",
+  "I hope you know how special you are to me 💛",
+  "I wish I could be there to see you smile today 😊",
+  "Honestly you're just really easy to like 🫶",
+  "I hope this next year is as beautiful as you are 🌸",
+  "Just checking in, hope you're smiling :)",
+"Would you mind if I started calling you 'baby'? 🥹",
+  "You've been on my mind all day 🍀",
+  "I'm saving my best energy for you 🥹",
+  "I can't wait until the day we finally meet ❤️",
+  "Talking to you is easily the best part of my day ^3^",
+  "You deserve the best things. I hope you get them all 🥹",
+  "I get a dopamine spike every time you message me 🥹",
+  "Whenever something feels heavy or off, i'll be open for you, always. ❤️",
+  "Hearing your voice always puts me in a better mood ❤️🥹",
+  "Distance is temporary, we'll be glad we found each other 🤍",
+  "Even on busy days, I always look forward to your texts 🥹",
+  "I want you feeling good always, call me anytime you need to vent or just talk through anything. ❤️",
+  "Counting down the days till we're in the same time zone 🥰",
+  "You never have to hold things in alone; I'm always here to listen, Helena ❤️",
+  "I'd cross the ocean just to hear you laugh in person 🥹",
+  "Happy birthday again, Helena, enjoy every second of it 🎉"
 ];
 
 let whisperIndex = 0;
-const whisperOverlay = document.getElementById('screenWhisper');
-const whisperTextEl = document.getElementById('screenWhisperText');
+let whisperTimeout = null;
+let whisperInterval = null;
+const takeover = document.getElementById('whisperTakeover');
+const messageEl = document.getElementById('whisperMessage');
+const fwCanvas = document.getElementById('whisperFireworks');
+const fwCtx = fwCanvas.getContext('2d');
 
+let fireworksParticles = [];
+let fwAnimationFrame = null;
+let fwSpawnTimer = null;
+
+// FIREWORKS ENGINE
+function resizeFireworksCanvas() {
+  fwCanvas.width = window.innerWidth;
+  fwCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeFireworksCanvas);
+resizeFireworksCanvas();
+
+function spawnFirework() {
+  const x = window.innerWidth / 2 + (Math.random() - 0.5) * (window.innerWidth * 0.6);
+  const y = window.innerHeight / 2 + (Math.random() - 0.5) * (window.innerHeight * 0.5);
+  
+  const colors = ['#f0cd86', '#e8b4b8', '#ffffff', '#c9868c'];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  
+  for (let i = 0; i < 30; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 4 + 1;
+    fireworksParticles.push({
+      x: x, y: y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      life: 1,
+      color: color,
+      size: Math.random() * 2 + 1
+    });
+  }
+}
+
+function renderFireworks() {
+  fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
+  
+  for (let i = fireworksParticles.length - 1; i >= 0; i--) {
+    const p = fireworksParticles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.05; // gravity
+    p.vx *= 0.98;
+    p.vy *= 0.98;
+    p.life -= 0.02;
+
+    if (p.life <= 0) {
+      fireworksParticles.splice(i, 1);
+      continue;
+    }
+
+    fwCtx.globalAlpha = p.life;
+    fwCtx.fillStyle = p.color;
+    fwCtx.shadowColor = p.color;
+    fwCtx.shadowBlur = 10;
+    fwCtx.beginPath();
+    fwCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    fwCtx.fill();
+  }
+  fwCtx.globalAlpha = 1;
+  fwCtx.shadowBlur = 0;
+  
+  fwAnimationFrame = requestAnimationFrame(renderFireworks);
+}
+
+// SHOW/HIDE LOGIC
 function triggerWhisper() {
-  // Don't show a whisper if she's currently looking at the final 3D "I adore you" screen
+  // Don't trigger if she's looking at the final 3D letter
   const secretOverlay = document.getElementById('secretLetterOverlay');
   if (secretOverlay && secretOverlay.classList.contains('show')) return;
 
-  if (!whisperOverlay || !whisperTextEl) return;
+  // 1. TURN PAUSE ON
+  isWhisperActive = true;
 
-  // 1. Set the text (shuffling through the list)
-  whisperTextEl.textContent = whispers[whisperIndex];
+  // 1. Set Text
+  messageEl.textContent = whispers[whisperIndex];
   whisperIndex = (whisperIndex + 1) % whispers.length;
 
-  // 2. Fade it in dramatically
-  whisperOverlay.classList.add('show');
+  // 2. Show Overlay & start fireworks
+  takeover.classList.add('show');
+  fireworksParticles = [];
+  renderFireworks();
+  
+  // Spawn fireworks rapidly for the first second
+  spawnFirework();
+  setTimeout(spawnFirework, 300);
+  setTimeout(spawnFirework, 600);
+  fwSpawnTimer = setInterval(spawnFirework, 800);
 
-  // 3. Play a very soft, magical chime
-  chime(880, 1.2, 0.02); 
+  // Play a cinematic chime
+  chime(880, 1.5, 0.04);
+  setTimeout(() => chime(1046.50, 1.5, 0.03), 200);
 
-  // 4. After 3.5 seconds, fade it out
-  setTimeout(() => {
-    whisperOverlay.classList.remove('show');
-  }, 3500); 
+  // 3. Hide after 4 seconds
+  whisperTimeout = setTimeout(() => {
+    takeover.classList.remove('show');
+
+    // 3. TURN PAUSE OFF
+    isWhisperActive = false; 
+    
+    // Stop fireworks after fade out
+    setTimeout(() => {
+      clearInterval(fwSpawnTimer);
+      cancelAnimationFrame(fwAnimationFrame);
+      fireworksParticles = [];
+      fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
+    }, 800);
+    
+  }, 4000);
 }
 
-// Start the loop. First one appears 10 seconds after she clicks "Begin".
-setTimeout(() => {
-  triggerWhisper();
-  // Then trigger every 20 seconds after that
-  setInterval(triggerWhisper, 20000);
-}, 10000);
+// START THE 20-SECOND TIMER EXACTLY WHEN SHE CLICKS BEGIN
+document.getElementById('enterBtn').addEventListener('click', () => {
+  // First whisper exactly 20 seconds after clicking begin
+  setTimeout(() => {
+    triggerWhisper();
+    
+    // Then loop every 20 seconds
+    whisperInterval = setInterval(triggerWhisper, 35000);
+  }, 35000);
+});
+
+// --- POPCORN SEQUENCE PLAYER ---
+const popcornTracks = ['./songs/popcorn.mp3', './songs/popcorn2.mp3'];
+let popcornIndex = 0;
+let currentPopcornAudio = null;
+
+// --- INFINITE AFTER-PARTY LOOP ---
+const afterPartyTracks = [
+  './songs/song2.mp3',     // 1. SZA - Good Days
+  './songs/popcorn.mp3',   // 2. Popcorn 1
+  './songs/popcorn2.mp3',  // 3. Popcorn 2
+  './songs/song4.mp3'      // 4. Frank Ocean - Pink + White (Loops back to SZA)
+];
+
+let currentLoopIndex = 0;
+let currentLoopAudio = null;
+let isLoopPlaying = false;
+
+function startAfterPartyLoop() {
+  // 1. Pause any DOM audio so it doesn't overlap
+  audioEls.forEach(a => a.pause());
+  document.querySelectorAll('.track-play').forEach(b => {
+    b.classList.remove('playing');
+    b.textContent = '▶';
+  });
+
+  // 2. Duck the birthday background music
+  if (window.__hb && typeof window.__hb.duck === 'function') {
+    window.__hb.duck();
+  }
+
+  isLoopPlaying = true;
+  currentLoopIndex = 0;
+  playNextLoopTrack();
+}
+
+function playNextLoopTrack() {
+  if (!isLoopPlaying) return;
+
+  // If we finished the 4 songs, loop back to index 0 (SZA)
+  if (currentLoopIndex >= afterPartyTracks.length) {
+    currentLoopIndex = 0;
+  }
+
+  currentLoopAudio = new Audio(afterPartyTracks[currentLoopIndex]);
+  currentLoopAudio.play().catch(e => console.log("Loop blocked:", e));
+
+  // When the current song finishes, play the next one
+  currentLoopAudio.onended = () => {
+    currentLoopIndex++;
+    playNextLoopTrack();
+  };
+}
+
+// --- VOICE SECTION LOCK LOGIC ---
+const nameInput = document.getElementById('nameInput');
+const unlockBtn = document.getElementById('unlockBtn');
+const voiceLock = document.getElementById('voiceLock');
+const voiceContent = document.getElementById('voiceContent');
+const lockError = document.getElementById('lockError');
+
+function checkName() {
+  // Get the input, make it lowercase, and remove extra spaces
+  const val = nameInput.value.trim().toLowerCase();
+  
+  if (val === 'divine') {
+    // 1. Hide the lock
+    voiceLock.style.display = 'none';
+    
+    // 2. Show the content
+    voiceContent.style.display = 'block';
+    
+    // 3. Manually trigger the fade-in animation
+    voiceContent.querySelectorAll('.section-head, .glass').forEach(el => {
+      el.classList.add('reveal', 'in');
+    });
+    
+    // 4. Play a magical unlock sound
+    chime(523, 0.8, 0.06);
+    setTimeout(() => chime(659, 0.8, 0.05), 100);
+    setTimeout(() => chime(784, 1.0, 0.06), 200);
+    setTimeout(() => chime(1047, 1.2, 0.05), 300);
+    
+    toast("Access Granted ✦");
+
+    // 5. IMPORTANT: Resize the waveform canvas now that it's visible!
+    setTimeout(() => {
+      sizeWave();
+    }, 100);
+
+  } else {
+    // Wrong name
+    lockError.textContent = "That's not it. Try again. 🥹";
+    voiceLock.classList.add('shake');
+    setTimeout(() => voiceLock.classList.remove('shake'), 400);
+    nameInput.value = '';
+  }
+}
+
+// Trigger on button click or pressing Enter
+if (unlockBtn && nameInput) {
+  unlockBtn.addEventListener('click', checkName);
+  nameInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') checkName();
+  });
+}
+
+// --- ENVELOPE OPENING LOGIC ---
+const envelopeWrapper = document.getElementById('envelopeWrapper');
+const theEnvelope = document.getElementById('theEnvelope');
+const letterContent = document.getElementById('letterContent');
+let envelopeOpened = false;
+
+if (theEnvelope) {
+  theEnvelope.addEventListener('click', () => {
+    if (envelopeOpened) return;
+    envelopeOpened = true;
+
+    // 1. Play a beautiful, deep magical chord (like a seal breaking)
+    chime(392.00, 1.5, 0.06); // G4
+    setTimeout(() => chime(523.25, 1.5, 0.05), 150); // C5
+    setTimeout(() => chime(659.25, 2.0, 0.06), 300); // E5
+
+    // 2. Trigger the CSS 3D opening animation
+    theEnvelope.classList.add('open');
+
+    // 3. Wait for the paper to slide out (1.2s), then reveal the letter
+    setTimeout(() => {
+      // Fade out the envelope entirely
+      envelopeWrapper.style.transition = 'opacity 1s ease, transform 1s ease';
+      envelopeWrapper.style.opacity = '0';
+      envelopeWrapper.style.transform = 'translateY(-20px)';
+      
+      setTimeout(() => {
+        envelopeWrapper.style.display = 'none';
+        
+        // Show the actual letter
+        letterContent.style.display = 'block';
+        
+        // Manually trigger the fade-in classes for the letter wrapper
+        const letterBox = letterContent.querySelector('.letter');
+        if (letterBox) {
+          letterBox.classList.add('in');
+        }
+
+        // IMPORTANT: Trigger the golden quill writing effect
+        const typeLines = letterContent.querySelectorAll('.type-line');
+        typeLines.forEach((line, index) => {
+          setTimeout(() => {
+            line.classList.add('written');
+          }, index * 600); // 600ms delay between paragraphs
+        });
+
+        // Scroll down slightly so she can read the letter comfortably
+        setTimeout(() => {
+          letterContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+
+      }, 800); // Wait for the envelope to fade out
+    }, 1500); // Wait for the paper to slide up
+  });
+}
 })();
 </script>
 
@@ -3305,12 +4109,12 @@ function hbUnduck(){
 }
 
 document.addEventListener('DOMContentLoaded', function(){
-  const enterBtn = document.getElementById('enterBtn');
-  if (enterBtn){
-  enterBtn.addEventListener('click', function(){
+  const finalEnterBtn = document.getElementById('finalEnterBtn'); // <-- Changed to finalEnterBtn
+  if (finalEnterBtn){
+  finalEnterBtn.addEventListener('click', function(){
   const ctx = hbEnsureCtx();
   if (ctx && ctx.state === 'suspended') {
-    ctx.resume();
+    ctx.resume();   
   }
   setTimeout(hbStart, 1200);
 });
