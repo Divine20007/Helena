@@ -1174,61 +1174,97 @@ main.show{opacity:1}
     0 0 60px rgba(232, 180, 184, 0.6);
 }
 
-/* --- SURREAL LIQUID VAULT --- */
+/* --- MOODY VAULT BOX --- */
 .voice-lock-box {
   position: relative;
-  max-width: 600px;
-  margin: 80px auto;
-  padding: 70px 40px;
+  max-width: 560px;
+  margin: 72px auto;
+  padding: 60px 36px;
   text-align: center;
-  background: rgba(16, 8, 15, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(160deg, rgba(44, 15, 32, 0.88), rgba(16, 7, 14, 0.94));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(242, 193, 133, 0.28);
+  border-radius: 26px;
   overflow: hidden;
   z-index: 10;
-  
-  /* The Water Wobble Effect */
-  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-  box-shadow: 
-    inset 0 0 60px rgba(255, 255, 255, 0.05),
-    0 0 40px rgba(255, 0, 128, 0.3),  /* Pink glow */
-    0 0 80px rgba(138, 43, 226, 0.3); /* Purple glow */
-  
-  animation: 
-    liquidWobble 8s ease-in-out infinite alternate,
-    neonPulse 4s infinite alternate;
+  box-shadow:
+    0 24px 65px rgba(0, 0, 0, 0.7),
+    0 0 45px rgba(214, 122, 140, 0.16),
+    inset 0 1px 0 rgba(255, 235, 205, 0.12);
+  animation: boxJiggle 7s ease-in-out infinite, borderShimmer 4.5s ease-in-out infinite alternate;
 }
 
-/* The morphing water shape */
-@keyframes liquidWobble {
-  0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(0deg) scale(1); }
-  33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: rotate(1deg) scale(1.02); }
-  66% { border-radius: 30% 70% 40% 60% / 60% 40% 30% 60%; transform: rotate(-1deg) scale(0.98); }
-  100% { border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%; transform: rotate(0deg) scale(1); }
+/* Subtle alive jiggle & border glow */
+@keyframes boxJiggle {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(0, -3px) rotate(0.45deg); }
+  40% { transform: translate(0, 2px) rotate(-0.45deg); }
+  60% { transform: translate(0, -2px) rotate(0.3deg); }
+  80% { transform: translate(0, 1px) rotate(-0.2deg); }
 }
 
-/* The neon outer glow breathing */
-@keyframes neonPulse {
-  0% { box-shadow: inset 0 0 60px rgba(255,255,255,0.05), 0 0 40px rgba(255,0,128,0.2), 0 0 80px rgba(138,43,226,0.2); }
-  100% { box-shadow: inset 0 0 80px rgba(255,255,255,0.1), 0 0 60px rgba(255,0,128,0.5), 0 0 120px rgba(138,43,226,0.5); }
+@keyframes borderShimmer {
+  0% {
+    border-color: rgba(242, 193, 133, 0.22);
+    box-shadow:
+      0 24px 65px rgba(0, 0, 0, 0.7),
+      0 0 35px rgba(214, 122, 140, 0.14),
+      inset 0 1px 0 rgba(255, 235, 205, 0.1);
+  }
+  100% {
+    border-color: rgba(247, 206, 146, 0.55);
+    box-shadow:
+      0 24px 65px rgba(0, 0, 0, 0.7),
+      0 0 60px rgba(242, 193, 133, 0.24),
+      inset 0 1px 0 rgba(255, 235, 205, 0.2);
+  }
 }
 
-/* The floating orbs inside the water */
+/* Soft ambient orbs inside the box */
 .liquid-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(20px);
+  filter: blur(34px);
+  pointer-events: none;
   z-index: 1;
-  animation: floatOrb 6s infinite ease-in-out alternate;
 }
-.orb1 { width: 100px; height: 100px; background: #ff0080; top: 10%; left: 10%; animation-delay: 0s; }
-.orb2 { width: 150px; height: 150px; background: #8a2be2; bottom: 10%; right: 10%; animation-delay: -2s; }
-.orb3 { width: 80px; height: 80px; background: #00ffff; top: 50%; left: 50%; animation-delay: -4s; }
 
-@keyframes floatOrb {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-  100% { transform: translate(30px, -30px) scale(1.2); opacity: 0.6; }
+.orb1 {
+  width: 140px;
+  height: 140px;
+  background: rgba(235, 169, 108, 0.24);
+  top: -25px;
+  left: -20px;
+  animation: orbGlideA 8s ease-in-out infinite alternate;
+}
+
+.orb2 {
+  width: 165px;
+  height: 165px;
+  background: rgba(168, 56, 108, 0.26);
+  bottom: -35px;
+  right: -25px;
+  animation: orbGlideB 10s ease-in-out infinite alternate;
+}
+
+.orb3 {
+  width: 95px;
+  height: 95px;
+  background: rgba(245, 198, 150, 0.18);
+  top: 45%;
+  left: 55%;
+  animation: orbGlideA 7s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes orbGlideA {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.55; }
+  100% { transform: translate(22px, -16px) scale(1.18); opacity: 0.9; }
+}
+
+@keyframes orbGlideB {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  100% { transform: translate(-20px, 16px) scale(1.15); opacity: 0.85; }
 }
 
 .vault-content {
@@ -1239,124 +1275,95 @@ main.show{opacity:1}
 .vault-eyebrow {
   font-family: 'Inter', sans-serif;
   font-size: 11px;
-  letter-spacing: 0.5em;
-  color: #00ffff; /* Neon cyan */
+  letter-spacing: 0.34em;
+  color: #f3c68f;
   text-transform: uppercase;
   font-weight: 600;
-  margin-bottom: 20px;
-  text-shadow: 0 0 10px #00ffff;
+  margin-bottom: 18px;
 }
 
-/* Colorful, glowing, jiggling title */
 .lock-title {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(26px, 5vw, 42px);
-  font-weight: 900;
-  margin: 0 0 40px 0;
-  line-height: 1.3;
-  
-  /* Rainbow Gradient Text */
-  background: linear-gradient(to right, #ff0080, #ff8c00, #40e0d0, #8a2be2, #ff0080);
-  background-size: 300% 100%;
+  font-family: 'Cinzel', 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 4.2vw, 36px);
+  font-weight: 800;
+  margin: 0 0 36px 0;
+  line-height: 1.32;
+  background: linear-gradient(120deg, #f5c27b 0%, #fff1dc 45%, #e6958e 75%, #f5c27b 100%);
+  background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  
-  animation: 
-    gradientShift 3s linear infinite,
-    textJiggle 0.15s infinite;
+  animation: goldSweep 5s ease-in-out infinite alternate;
 }
 
-@keyframes gradientShift {
+@keyframes goldSweep {
   0% { background-position: 0% 50%; }
   100% { background-position: 100% 50%; }
-}
-
-@keyframes textJiggle {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(1px, -1px) rotate(0.5deg); }
-  50% { transform: translate(-1px, 1px) rotate(-0.5deg); }
-  75% { transform: translate(1px, 1px) rotate(0.5deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
 }
 
 .lock-input-group {
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
 #nameInput {
-  background: rgba(0,0,0,0.3);
+  background: rgba(255, 255, 255, 0.03);
   border: none;
-  border-bottom: 2px solid #8a2be2;
-  padding: 15px 20px;
-  color: #fff;
+  border-bottom: 1.5px solid rgba(243, 198, 143, 0.35);
+  padding: 12px 18px;
+  color: #fff5e8;
   font-family: 'Caveat', cursive;
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: clamp(30px, 4.8vw, 44px);
   text-align: center;
   outline: none;
-  width: 80%;
-  max-width: 400px;
-  transition: all 0.4s ease;
-  caret-color: #00ffff;
-  border-radius: 20px 20px 0 0;
-  box-shadow: inset 0 -10px 20px -10px rgba(138, 43, 226, 0.5);
+  width: 82%;
+  max-width: 360px;
+  border-radius: 14px 14px 0 0;
+  caret-color: #f5c27b;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 #nameInput::placeholder {
   font-family: 'Cormorant Garamond', serif;
   font-size: 18px;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.1em;
+  color: rgba(255, 241, 220, 0.35);
+  letter-spacing: 0.05em;
 }
 
 #nameInput:focus {
-  border-bottom: 2px solid #00ffff;
-  box-shadow: inset 0 -15px 30px -10px rgba(0, 255, 255, 0.4), 0 0 20px rgba(0, 255, 255, 0.2);
-  background: rgba(0,0,0,0.5);
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom-color: #f5c27b;
+  box-shadow: 0 10px 24px -12px rgba(245, 194, 123, 0.45);
 }
 
-/* The glowing, floating Unveil button */
 #unlockBtn {
-  background: transparent;
-  border: 2px solid #ff0080;
-  padding: 16px 60px;
-  border-radius: 99px;
-  color: #ff0080;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  margin-top: 10px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(255, 0, 128, 0.2), inset 0 0 10px rgba(255, 0, 128, 0.1);
-}
-
-/* Button hover fills with neon pink */
-#unlockBtn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #ff0080;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease;
-  z-index: -1;
+  background: linear-gradient(90deg, #f3be7c, #e69888);
+  border: none;
+  padding: 15px 54px;
+  border-radius: 999px;
+  color: #1b0b12;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 6px;
+  box-shadow: 0 8px 25px rgba(243, 190, 124, 0.28);
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
 }
 
 #unlockBtn:hover {
-  color: #fff;
-  box-shadow: 0 0 40px rgba(255, 0, 128, 0.8), inset 0 0 20px rgba(255, 0, 128, 0.5);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(243, 190, 124, 0.45);
 }
 
-#unlockBtn:hover::before {
-  transform: scaleX(1);
+#unlockBtn:active {
+  transform: translateY(0) scale(0.99);
 }
 
 #unlockBtn span {
@@ -1365,23 +1372,20 @@ main.show{opacity:1}
 }
 
 .lock-error {
-  color: #ff0080;
-  margin-top: 25px;
-  font-size: 16px;
-  min-height: 24px;
+  color: #f2959c;
+  margin-top: 22px;
+  font-size: 15px;
+  min-height: 22px;
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-shadow: 0 0 10px #ff0080;
+  letter-spacing: 0.03em;
 }
 
-/* Mobile fixes for the wobbly box */
 @media (max-width: 768px) {
   .voice-lock-box {
-    padding: 50px 20px;
-    margin: 40px auto;
-    animation: liquidWobble 8s ease-in-out infinite alternate; /* Remove the heavy box-shadow pulse on mobile */
+    padding: 46px 22px;
+    margin: 36px 16px;
+    border-radius: 22px;
   }
 }
 
@@ -3732,7 +3736,7 @@ function triggerWhisper() {
       fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
     }, 800);
     
-  }, 4000);
+  }, 2500);
 }
 
 // START THE 20-SECOND TIMER EXACTLY WHEN SHE CLICKS BEGIN
@@ -3741,7 +3745,7 @@ document.getElementById('enterBtn').addEventListener('click', () => {
   setTimeout(() => {
     triggerWhisper();
     
-    // Then loop every 20 seconds
+    // Then loop every 35 seconds
     whisperInterval = setInterval(triggerWhisper, 35000);
   }, 35000);
 });
